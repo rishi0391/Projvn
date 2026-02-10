@@ -51,7 +51,7 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 .floating{position:fixed;top:-40px;pointer-events:none;z-index:80;animation-name:floatDrift;animation-timing-function:linear;animation-fill-mode:forwards;}
 @keyframes floatDrift{0%{transform:translate(0,0) rotate(0deg);opacity:0.9;}25%{transform:translate(15px,25vh) rotate(20deg);}50%{transform:translate(-10px,50vh) rotate(-15deg);}75%{transform:translate(10px,75vh) rotate(10deg);}100%{transform:translate(0,100vh) rotate(360deg);opacity:0;}}
 
-/* Fireworks */
+/* Fireworks - lighter hearts */
 .firework{position:fixed;font-size:28px;pointer-events:none;animation:boom 1.5s ease-out forwards;z-index:120;color:var(--heart-light);}
 @keyframes boom{0%{transform:scale(0.2);opacity:0.8}70%{transform:scale(2.5);opacity:0.8}100%{transform:scale(3.5);opacity:0;}}
 
@@ -59,50 +59,6 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 .fullscreen{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;z-index:999;cursor:pointer;}
 .fullscreen img{max-width:90%;max-height:90%;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.5);transform: scale(0.8);opacity:0;transition: transform 0.4s ease, opacity 0.4s ease;}
 .fullscreen.show img{transform: scale(1);opacity:1;}
-
-/* Surprise gift button */
-#giftBtn{
-  position:absolute;
-  top:-60px;
-  right:40px;
-  background:#ff69b4;
-  color:white;
-  padding:14px 28px;
-  border-radius:28px;
-  font-size:1.1rem;
-  cursor:pointer;
-  box-shadow:0 10px 25px rgba(255,105,135,.45);
-  opacity:0;
-  transition:all 1s ease;
-}
-
-/* Gift message */
-#giftMsg{
-  position:absolute;
-  top:50%;
-  left:15%;
-  transform:translateY(-50%);
-  font-family:'Sacramento',cursive;
-  font-size:1.9rem;
-  color:#e11d48;
-  text-align:left;
-  opacity:0;
-  transition:opacity 1.5s;
-}
-
-/* Floating gift icons */
-.floatingGift{
-  position:fixed;
-  font-size:28px;
-  pointer-events:none;
-  z-index:200;
-  animation:giftPop 2s ease-out forwards;
-}
-@keyframes giftPop{
-  0%{transform:translate(0,0) scale(0); opacity:0;}
-  50%{opacity:1; transform:translate(calc(var(--x)*1px), calc(var(--y)*1px)) scale(1.2);}
-  100%{opacity:0; transform:translate(calc(var(--x)*1px), calc(var(--y)*1px)) scale(1);}
-}
 </style>
 </head>
 <body>
@@ -167,15 +123,12 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 <div class="page final" id="page3">
   <p id="loveMsg" class="handwritten" style="font-size:2rem;margin-bottom:15px;"></p>
   <img src="img/img10.jpg" id="finalImg" style="opacity:0;transition:opacity 2s;width:400px;max-width:85%;border-radius:24px;cursor:pointer;box-shadow:0 18px 40px rgba(255,105,135,.35);" onclick="revealForever()">
-  <p id="secondMsg" class="handwritten" style="margin-top:15px;font-size:1.8rem;opacity:0;">This was the moment everything began 💫<br>And I’d choose you all over again.</p>
-  <p id="foreverMsg" class="forever handwritten" style="font-size:1.9rem;margin-top:10px;text-align:center;">Forever was an easy choice… it was always you 💐</p>
+  <p id="secondMsg" class="handwritten" style="margin-top:15px;font-size:1.8rem;opacity:0;">This was the moment everything began <br>And I’d choose you all over again.</p>
+  <p id="foreverMsg" class="forever handwritten" style="font-size:1.9rem;margin-top:10px;text-align:center;">Forever was an easy choice… it was always you My Love 💐</p>
 
-  <!-- Surprise gift button and message -->
-<!-- PAGE 3 section additions -->
-<!-- Add inside <div class="page final" id="page3"> -->
-<button id="giftBtn" style="position:absolute;top:-60px;right:40px;opacity:0;background:#ff69b4;color:white;padding:14px 28px;border-radius:28px;cursor:pointer;box-shadow:0 10px 25px rgba(255,105,135,.45);transition:all 1s ease;">🎁 Surprise Gift</button>
-<p id="giftMsg" style="position:absolute;top:50%;left:10%;transform:translateY(-50%);font-family:'Sacramento',cursive;font-size:1.9rem;color:#e11d48;text-align:left;opacity:0;transition:opacity 1.5s;">Making up for this Valentine’s week, days which I missed to celebrate with you... Today I am your Gift Baby..</p>
-
+  <!-- Surprise Gift Button & Message -->
+  <button id="giftBtn" style="position:absolute;top:50px;right:40px;opacity:0;background:#ff69b4;color:white;padding:14px 28px;border-radius:28px;cursor:pointer;box-shadow:0 10px 25px rgba(255,105,135,.45);transition:all 1s ease;">🎁 Surprise Gift</button>
+  <p id="giftMsg" style="position:absolute;bottom:85%;left:10%;transform:translateY(-50%);font-family:'Sacramento',cursive;font-size:1.9rem;color:#e11d48;text-align:left;opacity:0;transition:opacity 1.5s;">I may have missed celebrating this Valentine’s week with you, but going forward… I’m all yours. Today, I’ll be your gift 😏💝</p>
 </div>
 
 <!-- Fullscreen -->
@@ -275,22 +228,11 @@ function goFinal(){
   page2.classList.remove("active");
   page3.classList.add("active");
   music3.pause();
-  music2.play(); // play music2 on page3
+  music2.play(); // play music2 on Page3 after "One last thing"
   typeLoveMsg();
 }
-function revealForever(){
-  foreverMsg.classList.add("show");
-  // show surprise gift button after 2 sec
-  const gift=document.getElementById("giftBtn");
-  setTimeout(()=>{
-    gift.style.top="200px";
-    gift.style.opacity=1;
-  },2000);
-}
 
-// Add at the bottom of your existing <script> but before
-
-// Show Surprise button 2s after clicking final image
+// Surprise gift logic
 function revealForever(){
   foreverMsg.classList.add("show");
   const gift=document.getElementById("giftBtn");
@@ -320,7 +262,7 @@ giftBtn.onclick=function(){
       g.textContent=gifts[Math.floor(Math.random()*gifts.length)];
       g.style.left="50%";
       g.style.top="70%";
-      const angle=Math.random()*Math.PI - Math.PI/2; // upward fan
+      const angle=Math.random()*Math.PI - Math.PI/2;
       const radius=100+Math.random()*100;
       g.style.transform=`translate(0,0)`;
       g.style.transition="transform 2s ease-out, opacity 2s ease-out";
@@ -352,7 +294,6 @@ giftBtn.onclick=function(){
   giftBtn.style.transform="rotate(10deg) scale(1.1)";
   setTimeout(()=>giftBtn.style.transform="rotate(0deg) scale(1)",500);
 }
-
 
 // Floating hearts PAGE1
 const floatIcons=["💖","💘","💜","🌹","🌸","✨"];
@@ -414,18 +355,11 @@ function launchCelebration(){
     setTimeout(()=>f.remove(),1500);
   },220);
   const rain=setInterval(()=>{ const r=document.createElement("div"); r.className="floating"; r.textContent=rainIcons[Math.floor(Math.random()*rainIcons.length)];
-    r.style.left=Math.random()*100+"vw"; r.style.fontSize=(18+Math.random()*22)+"px";
-    r.style.animationDuration=(4+Math.random()*3)+"s";
-    r.style.color="var(--heart-light)";
+    r.style.left=Math.random()*100+"vw"; r.style.fontSize=(18+Math.random()*22)+"px"; r.style.animationDuration=(4+Math.random()*3)+"s"; r.style.color="var(--heart-light)";
     document.body.appendChild(r); setTimeout(()=>r.remove(),8000);
   },120);
   setTimeout(()=>{ clearInterval(fw); clearInterval(rain); },5000);
-  }
-
-
-
-
-
+}
 </script>
 </body>
 </html>
