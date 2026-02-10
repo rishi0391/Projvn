@@ -13,12 +13,12 @@
   --text:#7a2845;
   --heart-light:#ffbad0;
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;}
 body{margin:0;font-family:'Poppins',sans-serif;color:var(--text);overflow:hidden;}
 .page{position:absolute;inset:0;display:none;justify-content:center;align-items:center;transition: background 2s ease;}
 .page.active{display:flex;flex-direction:column;}
 
-/* ---------- PAGE 1 ---------- */
+/* PAGE 1 */
 .card{background:var(--card);padding:32px 42px;border-radius:28px;width:95%;max-width:620px;text-align:center;box-shadow:0 30px 60px rgba(255,105,135,.25);display:flex;flex-direction:column;gap:16px;}
 .names{font-size:1.6rem;font-weight:600;color:#9d174d;}
 h1{margin:0;font-size:2.1rem;}
@@ -26,76 +26,49 @@ h1{margin:0;font-size:2.1rem;}
 .buttons{position:relative;height:120px;}
 button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor:pointer;font-weight:600;}
 #yesBtn{background:var(--accent);color:white;position:absolute;left:50%;bottom:0;transform:translateX(-50%);box-shadow:0 10px 25px rgba(255,105,135,.45);}
-#noBtn{background:#ffe0ea;color:#9d174d;position:absolute;top:0;left:0;}
-.tease{min-height:26px;font-style:italic;color:#9d174d;}
+#noBtn{background:#ffe0ea;color:#9d1745;position:absolute;top:0;left:0;}
+.tease{min-height:26px;font-style:italic;color:#9d1745;}
 
-/* ---------- PAGE 2 ---------- */
+/* PAGE 2 */
 .memory{flex-direction:column;gap:16px;padding:20px;text-align:center;}
 .yesConfirm{font-size:2rem;font-weight:800;color:var(--accent-dark);animation:pulse 2.2s ease-in-out infinite;margin-bottom:20px;}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-
-/* Theater-style slideshow */
 #slideshow{position:relative;width:90%;max-width:1200px;height:600px;margin:auto;overflow:hidden;border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,0.25);background:#000;}
 #slideshow img{width:100%;height:100%;object-fit:contain;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;transition: opacity 1.5s ease-in-out;}
 #slideshow img.active{opacity:1;}
+#memoryLaneTitle{font-family:'Sacramento',cursive;font-size:2rem;margin-top:20px;opacity:0;transition: opacity 1.5s;}
+.reel{width:100%;overflow-x:auto;display:none;gap:16px;margin-top:20px;padding:20px 0;white-space:nowrap;cursor:grab;}
+.reel img{width:200px;height:250px;object-fit:cover;border-radius:16px;cursor:zoom-in;display:inline-block;transform-origin: top center;animation: swing 3s ease-in-out infinite;}
+@keyframes swing{0%{transform:rotate(-5deg);}50%{transform:rotate(5deg);}100%{transform:rotate(-5deg);}}
 
-/* Reel / Memory Lane */
-#memoryLaneTitle{
-  font-family:'Sacramento',cursive;
-  font-size:2.3rem;
-  margin:20px 0;
-  display:none;
-}
-.reel{width:100%;overflow-x:auto;display:none;flex-wrap:nowrap;gap:18px;padding-bottom:20px;}
-.reel img{width:200px;height:250px;object-fit:cover;border-radius:16px;cursor:zoom-in;transform-origin:top center;transition:transform 0.4s ease;}
-
-/* ---------- PAGE 3 ---------- */
+/* PAGE 3 */
 .final{flex-direction:column;gap:18px;text-align:center;}
-.fade{opacity:0;transform:translateY(16px);transition:4s ease;}
-.fade.show{opacity:1;transform:translateY(0);}
-.handwritten{font-family:'Sacramento',cursive;color:#9d174d;text-align:center;}
+.handwritten{font-family:'Sacramento',cursive;color:#9d1745;text-align:center;}
 .forever{opacity:0;transition:1.8s;font-style:italic;}
 .forever.show{opacity:1;}
 
-/* ---------- Floating elements ---------- */
+/* Floating elements */
 .floating{position:fixed;top:-40px;pointer-events:none;z-index:80;animation-name:floatDrift;animation-timing-function:linear;animation-fill-mode:forwards;}
 @keyframes floatDrift{0%{transform:translate(0,0) rotate(0deg);opacity:0.9;}25%{transform:translate(15px,25vh) rotate(20deg);}50%{transform:translate(-10px,50vh) rotate(-15deg);}75%{transform:translate(10px,75vh) rotate(10deg);}100%{transform:translate(0,100vh) rotate(360deg);opacity:0;}}
 
-/* ---------- FIREWORKS (lighter hearts) ---------- */
+/* Fireworks - lighter hearts */
 .firework{position:fixed;font-size:28px;pointer-events:none;animation:boom 1.5s ease-out forwards;z-index:120;color:var(--heart-light);}
-@keyframes boom{0%{transform:scale(0.2);opacity:0.8}70%{transform:scale(2.5);opacity:0.8}100%{transform:scale(3.5);opacity:0}}
+@keyframes boom{0%{transform:scale(0.2);opacity:0.8}70%{transform:scale(2.5);opacity:0.8}100%{transform:scale(3.5);opacity:0;}}
 
-/* ---------- Fullscreen overlay ---------- */
-.fullscreen{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-  cursor:pointer;
-}
-.fullscreen img{
-  max-width:90%;
-  max-height:90%;
-  border-radius:18px;
-  box-shadow:0 16px 40px rgba(0,0,0,0.5);
-  transform: scale(0.8);
-  opacity:0;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-}
-.fullscreen.show img{
-  transform: scale(1);
-  opacity:1;
-}
+/* Fullscreen overlay */
+.fullscreen{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;z-index:999;cursor:pointer;}
+.fullscreen img{max-width:90%;max-height:90%;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.5);transform: scale(0.8);opacity:0;transition: transform 0.4s ease, opacity 0.4s ease;}
+.fullscreen.show img{transform: scale(1);opacity:1;}
+
+
 </style>
 </head>
 <body>
 
-<!-- Audio -->
+<!-- AUDIO -->
 <audio id="music1" src="music/music1.mp3" loop></audio>
 <audio id="music3" src="music/music3.mp3" loop></audio>
+<audio id="music2" src="music/music2.mp3" loop></audio>
 
 <!-- PAGE 1 -->
 <div class="page active" id="page1">
@@ -114,9 +87,7 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 <!-- PAGE 2 -->
 <div class="page memory" id="page2">
   <div class="yesConfirm">💖 Yay! You Said Yes!</div>
-  <h1 id="slideshowTitle">Our Beautiful Memories 💞</h1>
-
-  <!-- Slideshow -->
+  <h1 id="page2Title">Our Beautiful Memories 💞</h1>
   <div id="slideshow">
     <img src="img/img1.jpg" class="active">
     <img src="img/img2.jpg">
@@ -128,11 +99,9 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
     <img src="img/img8.jpg">
     <img src="img/img9.jpg">
   </div>
-
-  <!-- Memory Lane (hanging pics) -->
   <div id="memoryLaneTitle">Our Memory Lane 💖</div>
   <div class="reel" id="reel">
-  	<img src="img/img11.jpg">
+    <img src="img/img11.jpg">
     <img src="img/img12.jpg">
     <img src="img/img13.jpg">
     <img src="img/img14.jpg">
@@ -148,9 +117,7 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
     <img src="img/img7.jpg">
     <img src="img/img8.jpg">
     <img src="img/img9.jpg">
-
   </div>
-
   <button onclick="goFinal()">One last thing… 💌</button>
 </div>
 
@@ -162,86 +129,73 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
   <p id="foreverMsg" class="forever handwritten" style="font-size:1.9rem;margin-top:10px;text-align:center;">Forever was an easy choice… it was always you 💐</p>
 </div>
 
-<!-- Fullscreen overlay -->
-<div class="fullscreen" id="fullscreen">
-  <img id="fullscreenImg">
-</div>
+<!-- Fullscreen -->
+<div class="fullscreen" id="fullscreen"><img id="fullscreenImg"></div>
 
 <script>
-// ---------- PAGE 1 ----------
-const typedText="Rishabh 💖 Hemanginee"; let i=0;
+// PAGE 1 typing
+const typedText="Rishabh 💖 Hemanginee";
+let i=0;
 (function type(){ if(i<typedText.length){ typed.textContent+=typedText[i++]; setTimeout(type,120); }})();
 
-const lines=["Are you sure about that? 💘","That button has commitment issues 😂","My heart says YES 💖","I believe in you ✨","Oops 😏 try again","Wrong choice 😌"];
+// PAGE 1 NO button
+const lines=["Are you sure? 💘","Button has commitment issues 😂","My heart says YES 💖","I believe in you ✨","Oops 😏 try again","Wrong choice 😌"];
 let l=0;
 function moveNo(){ const box=document.querySelector(".buttons"); noBtn.style.left=Math.random()*(box.clientWidth-90)+"px"; noBtn.style.top=Math.random()*(box.clientHeight-40)+"px"; tease.textContent=lines[l++%lines.length]; }
 noBtn.onmouseenter=moveNo; noBtn.ontouchstart=moveNo;
 
-// ---------- AUDIO ----------
+// AUDIO
 const music1 = document.getElementById("music1");
 const music3 = document.getElementById("music3");
+const music2 = document.getElementById("music2");
 
-// Start music1 on first interaction
-function startMusic1(){
-  music1.play().catch(e=>console.log("Autoplay blocked"));
-  document.body.removeEventListener("click", startMusic1);
-}
-document.body.addEventListener("click", startMusic1);
+// Start music1 on first click
+page1.addEventListener("click", function playMusic1Once() {
+  music1.play().catch(err=>console.log("Music1 blocked:",err));
+  page1.removeEventListener("click", playMusic1Once);
+});
 
-// ---------- PAGE 2 ----------
-const page1 = document.getElementById("page1");
-const page2 = document.getElementById("page2");
-const page3 = document.getElementById("page3");
-
-const yesBtnEl = document.getElementById("yesBtn");
-const slideshowEl = document.getElementById("slideshow");
-const slideshowTitle = document.getElementById("slideshowTitle");
-const memoryLaneTitle = document.getElementById("memoryLaneTitle");
-const reelEl = document.getElementById("reel");
-
-// Hide memory lane initially
-memoryLaneTitle.style.display = "none";
-reelEl.style.display = "none";
-
-yesBtnEl.onclick = () => {
+// PAGE 2
+yesBtn.onclick=()=>{
   page1.classList.remove("active");
   page2.classList.add("active");
-
-  // Stop music1, start music3
-  music1.pause();
-  music1.currentTime = 0;
-  music3.play().catch(e=>console.log("music3 autoplay blocked"));
-
+  music1.pause(); music1.currentTime=0;
+  music3.play();
   launchCelebration();
+  launchPage2Petals();
   startSlideshow();
-  launchPetals();
 };
 
-// ---------- SLIDESHOW ----------
+// SLIDESHOW
 function startSlideshow(){
   const slides = document.querySelectorAll("#slideshow img");
   slides.forEach(img=>img.style.opacity=0);
+  slides[0].style.opacity=1;
   let idx=0;
-  slides[idx].style.opacity=1;
-  const interval = setInterval(()=>{
+  const interval=setInterval(()=>{
     slides[idx].style.opacity=0;
     idx++;
     if(idx>=slides.length){
       clearInterval(interval);
-      slideshowEl.style.display="none";
-      slideshowTitle.style.display="none";
-      memoryLaneTitle.style.display="block";
-      reelEl.style.display="flex";
+      document.getElementById("slideshow").style.transition="opacity 1.5s";
+      document.getElementById("slideshow").style.opacity=0;
+      document.getElementById("page2Title").style.transition="opacity 1.5s";
+      document.getElementById("page2Title").style.opacity=0;
+      setTimeout(()=>{
+        document.getElementById("slideshow").style.display="none";
+        document.getElementById("reel").style.display="flex";
+        document.getElementById("memoryLaneTitle").style.opacity=1;
+      },1600);
       return;
     }
     slides[idx].style.opacity=1;
   },3500);
 }
 
-// ---------- HANGING IMAGE FULLSCREEN ----------
-const fullscreen = document.getElementById("fullscreen");
-const fullscreenImg = document.getElementById("fullscreenImg");
-document.querySelectorAll(".reel img").forEach(img=>{
+// Fullscreen images
+const fullscreen=document.getElementById("fullscreen");
+const fullscreenImg=document.getElementById("fullscreenImg");
+document.querySelectorAll("#reel img").forEach(img=>{
   img.addEventListener("click", e=>{
     e.stopPropagation();
     fullscreenImg.src=img.src;
@@ -256,37 +210,7 @@ fullscreen.addEventListener("click", e=>{
   }
 });
 
-// ---------- FLOATING PETALS ----------
-function launchPetals(){
-  const petals=["🌹"];
-  setInterval(()=>{
-    const p = document.createElement("div");
-    p.className="floating";
-    p.textContent = petals[Math.floor(Math.random()*petals.length)];
-    p.style.left = Math.random()*100+"vw";
-    p.style.fontSize = (24+Math.random()*20)+"px";
-    p.style.animationDuration = (6+Math.random()*6)+"s";
-    page2.appendChild(p);
-    setTimeout(()=>p.remove(),12000);
-  },400);
-}
-
-// ---------- PAGE 3 FLOWERS ----------
-function launchPage3Flowers(){
-  const flowers=["💜","🤍","🌹","🌼"];
-  setInterval(()=>{
-    const f = document.createElement("div");
-    f.className="floating";
-    f.textContent = flowers[Math.floor(Math.random()*flowers.length)];
-    f.style.left = Math.random()*100+"vw";
-    f.style.fontSize = (22+Math.random()*28)+"px";
-    f.style.animationDuration = (6+Math.random()*6)+"s";
-    page3.appendChild(f);
-    setTimeout(()=>f.remove(),12000);
-  },400);
-}
-
-// ---------- FINAL PAGE ----------
+// PAGE 3 text & music2
 const loveText="I Love You my Bacha .... Not just today, but every single day that follows 💘";
 const loveMsg=document.getElementById("loveMsg");
 const finalImg=document.getElementById("finalImg");
@@ -294,44 +218,81 @@ const secondMsg=document.getElementById("secondMsg");
 const foreverMsg=document.getElementById("foreverMsg");
 let li=0;
 function typeLoveMsg(){
-  if(li<loveText.length){
-    loveMsg.textContent+=loveText[li++];
-    setTimeout(typeLoveMsg,80);
-  } else {
-    finalImg.style.opacity=1;
-    setTimeout(()=>{ secondMsg.style.transition="opacity 2s"; secondMsg.style.opacity=1; },2000);
-  }
+  if(li<loveText.length){ loveMsg.textContent+=loveText[li++]; setTimeout(typeLoveMsg,80); }
+  else{ finalImg.style.opacity=1; setTimeout(()=>{ secondMsg.style.transition="opacity 2s"; secondMsg.style.opacity=1; },2000);}
 }
+
 function goFinal(){
   page2.classList.remove("active");
   page3.classList.add("active");
+  music3.pause();
+  music2.play(); // play music2 on page3
   typeLoveMsg();
-  launchPage3Flowers();
 }
-function revealForever(){foreverMsg.classList.add("show");}
+function revealForever(){ foreverMsg.classList.add("show"); }
 
-// ---------- CELEBRATION ----------
+// Floating hearts PAGE1
+const floatIcons=["💖","💘","💜","🌹","🌸","✨"];
+setInterval(()=>{
+  if(page1.classList.contains("active")){
+    const r=document.createElement("div");
+    r.className="floating";
+    r.textContent=floatIcons[Math.floor(Math.random()*floatIcons.length)];
+    r.style.left=Math.random()*100+"vw";
+    r.style.fontSize=(20+Math.random()*30)+"px";
+    r.style.animationDuration=(6+Math.random()*6)+"s";
+    r.style.color="var(--heart-light)";
+    page1.appendChild(r); setTimeout(()=>r.remove(),12000);
+  }
+},400);
+
+// Floating petals PAGE2
+function launchPage2Petals(){
+  const petals=["🌹"];
+  setInterval(()=>{
+    if(page2.classList.contains("active")){
+      const p=document.createElement("div"); p.className="floating";
+      p.textContent=petals[Math.floor(Math.random()*petals.length)];
+      p.style.left=Math.random()*100+"vw";
+      p.style.fontSize=(24+Math.random()*20)+"px";
+      p.style.animationDuration=(6+Math.random()*6)+"s";
+      page2.appendChild(p); setTimeout(()=>p.remove(),12000);
+    }
+  },400);
+}
+
+// Floating flowers PAGE3
+function launchPage3Flowers(){
+  const flowers=["💜","🤍","🌹","🌼"];
+  setInterval(()=>{
+    if(page3.classList.contains("active")){
+      const f=document.createElement("div"); f.className="floating";
+      f.textContent=flowers[Math.floor(Math.random()*flowers.length)];
+      f.style.left=Math.random()*100+"vw";
+      f.style.fontSize=(22+Math.random()*28)+"px";
+      f.style.animationDuration=(6+Math.random()*6)+"s";
+      page3.appendChild(f); setTimeout(()=>f.remove(),12000);
+    }
+  },400);
+}
+launchPage3Flowers();
+
+// Background gradient
+const pages=document.querySelectorAll(".page");
+const gradients=['linear-gradient(135deg, #ffe4ec, #fff0f5)','linear-gradient(135deg, #ffd6e8, #ffb6d9)','linear-gradient(135deg, #fcd5ce, #f8c3c3)','linear-gradient(135deg, #e6d0ff, #f3c8ff)','linear-gradient(135deg, #ffe7f0, #ffdaf3)'];
+let gIndex=0;
+setInterval(()=>{ pages.forEach(p=>p.style.background=gradients[gIndex]); gIndex=(gIndex+1)%gradients.length; },2000);
+
+// Celebration fireworks
 function launchCelebration(){
   const rainIcons=["💖","💘","💜","🌹","🌸","✨"];
-  const fw = setInterval(()=>{
-    const f = document.createElement("div");
-    f.className="firework";
-    f.textContent = "💖";
-    f.style.left=Math.random()*100+"vw";
-    f.style.top=Math.random()*60+"vh";
-    document.body.appendChild(f);
+  const fw=setInterval(()=>{ const f=document.createElement("div"); f.className="firework"; f.textContent="💖";
+    f.style.left=Math.random()*100+"vw"; f.style.top=Math.random()*60+"vh"; document.body.appendChild(f);
     setTimeout(()=>f.remove(),1500);
   },220);
-  const rain = setInterval(()=>{
-    const r = document.createElement("div");
-    r.className="floating";
-    r.textContent = rainIcons[Math.floor(Math.random()*rainIcons.length)];
-    r.style.left=Math.random()*100+"vw";
-    r.style.fontSize=(18+Math.random()*22)+"px";
-    r.style.animationDuration=(4+Math.random()*3)+"s";
-    r.style.color="var(--heart-light)";
-    document.body.appendChild(r);
-    setTimeout(()=>r.remove(),8000);
+  const rain=setInterval(()=>{ const r=document.createElement("div"); r.className="floating"; r.textContent=rainIcons[Math.floor(Math.random()*rainIcons.length)];
+    r.style.left=Math.random()*100+"vw"; r.style.fontSize=(18+Math.random()*22)+"px"; r.style.animationDuration=(4+Math.random()*3)+"s"; r.style.color="var(--heart-light)";
+    document.body.appendChild(r); setTimeout(()=>r.remove(),8000);
   },120);
   setTimeout(()=>{ clearInterval(fw); clearInterval(rain); },5000);
 }
