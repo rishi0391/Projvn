@@ -51,7 +51,7 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 .floating{position:fixed;top:-40px;pointer-events:none;z-index:80;animation-name:floatDrift;animation-timing-function:linear;animation-fill-mode:forwards;}
 @keyframes floatDrift{0%{transform:translate(0,0) rotate(0deg);opacity:0.9;}25%{transform:translate(15px,25vh) rotate(20deg);}50%{transform:translate(-10px,50vh) rotate(-15deg);}75%{transform:translate(10px,75vh) rotate(10deg);}100%{transform:translate(0,100vh) rotate(360deg);opacity:0;}}
 
-/* Fireworks - lighter hearts */
+/* Fireworks */
 .firework{position:fixed;font-size:28px;pointer-events:none;animation:boom 1.5s ease-out forwards;z-index:120;color:var(--heart-light);}
 @keyframes boom{0%{transform:scale(0.2);opacity:0.8}70%{transform:scale(2.5);opacity:0.8}100%{transform:scale(3.5);opacity:0;}}
 
@@ -59,6 +59,50 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 .fullscreen{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;z-index:999;cursor:pointer;}
 .fullscreen img{max-width:90%;max-height:90%;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.5);transform: scale(0.8);opacity:0;transition: transform 0.4s ease, opacity 0.4s ease;}
 .fullscreen.show img{transform: scale(1);opacity:1;}
+
+/* Surprise gift button */
+#giftBtn{
+  position:absolute;
+  top:-60px;
+  right:40px;
+  background:#ff69b4;
+  color:white;
+  padding:14px 28px;
+  border-radius:28px;
+  font-size:1.1rem;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(255,105,135,.45);
+  opacity:0;
+  transition: all 1s ease;
+}
+
+/* Gift message */
+#giftMsg{
+  position:absolute;
+  top:50%;
+  left:15%;
+  transform:translateY(-50%);
+  font-family:'Sacramento',cursive;
+  font-size:1.9rem;
+  color:#e11d48;
+  text-align:left;
+  opacity:0;
+  transition:opacity 1.5s;
+}
+
+/* Floating gift icons */
+.floatingGift{
+  position:fixed;
+  font-size:28px;
+  pointer-events:none;
+  z-index:200;
+  animation:giftPop 2s ease-out forwards;
+}
+@keyframes giftPop{
+  0%{transform:translate(0,0) scale(0); opacity:0;}
+  50%{opacity:1; transform:translate(calc(var(--x)*1px), calc(var(--y)*1px)) scale(1.2);}
+  100%{opacity:0; transform:translate(calc(var(--x)*1px), calc(var(--y)*1px)) scale(1);}
+}
 </style>
 </head>
 <body>
@@ -122,33 +166,16 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 <!-- PAGE 3 -->
 <div class="page final" id="page3">
   <p id="loveMsg" class="handwritten" style="font-size:2rem;margin-bottom:15px;"></p>
+  <img src="img/img10.jpg" id="finalImg" style="opacity:0;transition:opacity 2s;width:400px;max-width:85%;border-radius:24px;cursor:pointer;box-shadow:0 18px 40px rgba(255,105,135,.35);" onclick="revealForever()">
+  <p id="secondMsg" class="handwritten" style="margin-top:15px;font-size:1.8rem;opacity:0;">This was the moment everything began 💫<br>And I’d choose you all over again.</p>
+  <p id="foreverMsg" class="forever handwritten" style="font-size:1.9rem;margin-top:10px;text-align:center;">Forever was an easy choice… it was always you 💐</p>
 
-  <img src="img/img10.jpg" id="finalImg" 
-       style="opacity:0;transition:opacity 2s;width:400px;max-width:85%;border-radius:24px;cursor:pointer;box-shadow:0 18px 40px rgba(255,105,135,.35);" 
-       onclick="revealForever()">
-
-  <p id="secondMsg" class="handwritten" style="margin-top:15px;font-size:1.8rem;opacity:0;">
-    This was the moment everything began <br>And I’d choose you all over again.
+  <!-- Surprise gift -->
+  <button id="giftBtn">🎁 Surprise Gift</button>
+  <p id="giftMsg" style="opacity:0; font-family:'Sacramento',cursive; font-size:1.9rem; color:#e11d48; text-align:left; margin-top:15px;">
+Making up for this Valentine’s week, days which I missed to celebrate with you... Today I am your Gift Baby..
   </p>
-
-  <p id="foreverMsg" class="forever handwritten" style="font-size:1.9rem;margin-top:10px;text-align:center;">
-    Forever was an easy choice… it was always you My Love 💐
-  </p>
-
-  <!-- Surprise Gift Container (responsive) -->
-  <div id="giftContainer" style="position:relative; width:100%; margin-top:30px;">
-    <button id="giftBtn" 
-        style="opacity:0;background:#ff69b4;color:white;padding:14px 28px;border-radius:28px;cursor:pointer;box-shadow:0 10px 25px rgba(255,105,135,.45);transition:all 1s ease;">
-      🎁 Surprise Gift
-    </button>
-
-    <p id="giftMsg" 
-       style="font-family:'Sacramento',cursive;font-size:1.9rem;color:#e11d48;text-align:center;margin-top:20px;opacity:0;transition:opacity 1.5s;">
-      I may have missed celebrating this Valentine’s week with you, but going forward… I’m all yours. Today, I’ll be your gift 😏💝
-    </p>
-  </div>
 </div>
-
 
 <!-- Fullscreen -->
 <div class="fullscreen" id="fullscreen"><img id="fullscreenImg"></div>
@@ -247,21 +274,21 @@ function goFinal(){
   page2.classList.remove("active");
   page3.classList.add("active");
   music3.pause();
-  music2.play(); // play music2 on Page3 after "One last thing"
+  music2.play(); // play music2 on page3
   typeLoveMsg();
 }
 
-// Surprise gift logic
 function revealForever(){
   foreverMsg.classList.add("show");
-  const gift=document.getElementById("giftBtn");
   setTimeout(()=>{
-    gift.style.top="200px";
-    gift.style.opacity=1;
+    const giftBtn=document.getElementById("giftBtn");
+    giftBtn.style.opacity=1;
+    giftBtn.style.top="200px"; // slide in
+    giftBtn.style.transition="all 1s cubic-bezier(0.68, -0.55, 0.27, 1.55)";
   },2000);
 }
 
-// Surprise gift button click
+// Surprise gift button
 const giftBtn=document.getElementById("giftBtn");
 giftBtn.onclick=function(){
   const giftMsg=document.getElementById("giftMsg");
@@ -274,43 +301,24 @@ giftBtn.onclick=function(){
   const fireInterval=setInterval(()=>{
     if(Date.now()-startTime>fireDuration){ clearInterval(fireInterval); return; }
 
-    // Flying gifts
     for(let i=0;i<8;i++){
       const g=document.createElement("div");
-      g.className="floating";
+      g.className="floatingGift";
       g.textContent=gifts[Math.floor(Math.random()*gifts.length)];
-      g.style.left="50%";
-      g.style.top="70%";
-      const angle=Math.random()*Math.PI - Math.PI/2;
-      const radius=100+Math.random()*100;
-      g.style.transform=`translate(0,0)`;
-      g.style.transition="transform 2s ease-out, opacity 2s ease-out";
+      const startX=Math.random()*window.innerWidth;
+      const startY=window.innerHeight-50;
+      g.style.left=startX+"px";
+      g.style.top=startY+"px";
+      const angle=Math.random()*Math.PI-Math.PI/2;
+      const radius=80+Math.random()*120;
+      g.style.setProperty("--x",radius*Math.cos(angle));
+      g.style.setProperty("--y",-radius*Math.sin(angle));
       document.body.appendChild(g);
-      setTimeout(()=>{ g.style.transform=`translate(${radius*Math.cos(angle)}px,${-radius*Math.sin(angle)}px)`; g.style.opacity=0; },10);
       setTimeout(()=>g.remove(),2000);
-    }
-
-    // Confetti
-    for(let i=0;i<6;i++){
-      const c=document.createElement("div");
-      c.className="confetti";
-      c.style.left=Math.random()*100+"vw";
-      c.style.background=["#ff4d6d","#ff69b4","#ffb6c1","#ffccd5","#ff85a2"][Math.floor(Math.random()*5)];
-      c.style.width="10px";
-      c.style.height="10px";
-      c.style.top="-10px";
-      c.style.opacity=0.8;
-      c.style.position="fixed";
-      c.style.pointerEvents="none";
-      c.style.zIndex="250";
-      c.style.transition="transform 3s linear, opacity 3s linear";
-      document.body.appendChild(c);
-      setTimeout(()=>{ c.style.transform=`translateY(110vh) rotate(${Math.random()*360}deg)`; c.style.opacity=0; },10);
-      setTimeout(()=>c.remove(),3000);
     }
   },200);
 
-  giftBtn.style.transform="rotate(10deg) scale(1.1)";
+  giftBtn.style.transform="rotate(10deg) scale(1.2)";
   setTimeout(()=>giftBtn.style.transform="rotate(0deg) scale(1)",500);
 }
 
@@ -341,43 +349,21 @@ function launchPage2Petals(){
       p.style.animationDuration=(6+Math.random()*6)+"s";
       page2.appendChild(p); setTimeout(()=>p.remove(),12000);
     }
-  },400);
+  },500);
 }
 
-// Floating flowers PAGE3
-function launchPage3Flowers(){
-  const flowers=["💜","🤍","🌹","🌼"];
-  setInterval(()=>{
-    if(page3.classList.contains("active")){
-      const f=document.createElement("div"); f.className="floating";
-      f.textContent=flowers[Math.floor(Math.random()*flowers.length)];
-      f.style.left=Math.random()*100+"vw";
-      f.style.fontSize=(22+Math.random()*28)+"px";
-      f.style.animationDuration=(6+Math.random()*6)+"s";
-      page3.appendChild(f); setTimeout(()=>f.remove(),12000);
-    }
-  },400);
-}
-launchPage3Flowers();
-
-// Background gradient
-const pages=document.querySelectorAll(".page");
-const gradients=['linear-gradient(135deg, #ffe4ec, #fff0f5)','linear-gradient(135deg, #ffd6e8, #ffb6d9)','linear-gradient(135deg, #fcd5ce, #f8c3c3)','linear-gradient(135deg, #e6d0ff, #f3c8ff)','linear-gradient(135deg, #ffe7f0, #ffdaf3)'];
-let gIndex=0;
-setInterval(()=>{ pages.forEach(p=>p.style.background=gradients[gIndex]); gIndex=(gIndex+1)%gradients.length; },2000);
-
-// Celebration fireworks
+// Celebration fireworks PAGE2
 function launchCelebration(){
-  const rainIcons=["💖","💘","💜","🌹","🌸","✨"];
-  const fw=setInterval(()=>{ const f=document.createElement("div"); f.className="firework"; f.textContent="💖";
-    f.style.left=Math.random()*100+"vw"; f.style.top=Math.random()*60+"vh"; document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1500);
-  },220);
-  const rain=setInterval(()=>{ const r=document.createElement("div"); r.className="floating"; r.textContent=rainIcons[Math.floor(Math.random()*rainIcons.length)];
-    r.style.left=Math.random()*100+"vw"; r.style.fontSize=(18+Math.random()*22)+"px"; r.style.animationDuration=(4+Math.random()*3)+"s"; r.style.color="var(--heart-light)";
-    document.body.appendChild(r); setTimeout(()=>r.remove(),8000);
-  },120);
-  setTimeout(()=>{ clearInterval(fw); clearInterval(rain); },5000);
+  const fireworks=["✨","💖","💘"];
+  setInterval(()=>{
+    if(page2.classList.contains("active")){
+      const f=document.createElement("div"); f.className="firework";
+      f.textContent=fireworks[Math.floor(Math.random()*fireworks.length)];
+      f.style.left=Math.random()*window.innerWidth+"px";
+      f.style.top=Math.random()*window.innerHeight+"px";
+      document.body.appendChild(f); setTimeout(()=>f.remove(),1500);
+    }
+  },800);
 }
 </script>
 </body>
