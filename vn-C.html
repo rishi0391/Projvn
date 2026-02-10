@@ -47,12 +47,6 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 .forever{opacity:0;transition:1.8s;font-style:italic;}
 .forever.show{opacity:1;}
 
-/* Surprise gift button */
-#giftBtn{position:absolute;top:-60px;right:40px;background:#ff69b4;color:white;padding:14px 28px;border-radius:28px;font-size:1.1rem;cursor:pointer;box-shadow:0 10px 25px rgba(255,105,135,.45);transition:all 0.8s ease;opacity:0;}
-
-/* Message shown by gift button */
-#giftMsg{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);font-family:'Sacramento',cursive;font-size:2rem;color:#e11d48;text-align:center;opacity:0;transition:opacity 1.5s;}
-
 /* Floating elements */
 .floating{position:fixed;top:-40px;pointer-events:none;z-index:80;animation-name:floatDrift;animation-timing-function:linear;animation-fill-mode:forwards;}
 @keyframes floatDrift{0%{transform:translate(0,0) rotate(0deg);opacity:0.9;}25%{transform:translate(15px,25vh) rotate(20deg);}50%{transform:translate(-10px,50vh) rotate(-15deg);}75%{transform:translate(10px,75vh) rotate(10deg);}100%{transform:translate(0,100vh) rotate(360deg);opacity:0;}}
@@ -64,7 +58,44 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 /* Fullscreen overlay */
 .fullscreen{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;z-index:999;cursor:pointer;}
 .fullscreen img{max-width:90%;max-height:90%;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.5);transform: scale(0.8);opacity:0;transition: transform 0.4s ease, opacity 0.4s ease;}
-.fullscreen.show img{transform: scale(1);opacity:1;}
+
+/* Surprise gift button */
+#giftBtn{
+  position:absolute;
+  top:-60px;
+  right:40px;
+  background:#ff69b4;
+  color:white;
+  padding:14px 28px;
+  border-radius:28px;
+  font-size:1.1rem;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(255,105,135,.45);
+  opacity:0;
+  transition:all 1s ease;
+}
+
+/* Gift message */
+#giftMsg{
+  position:absolute;
+  top:50%;
+  left:15%;
+  transform:translateY(-50%);
+  font-family:'Sacramento',cursive;
+  font-size:1.9rem;
+  color:#e11d48;
+  text-align:left;
+  opacity:0;
+  transition:opacity 1.5s;
+}
+
+/* Floating gift icons */
+.floatingGift{
+  position:fixed;
+  font-size:28px;
+  pointer-events:none;
+  z-index:200;
+}
 </style>
 </head>
 <body>
@@ -131,39 +162,37 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
   <img src="img/img10.jpg" id="finalImg" style="opacity:0;transition:opacity 2s;width:400px;max-width:85%;border-radius:24px;cursor:pointer;box-shadow:0 18px 40px rgba(255,105,135,.35);" onclick="revealForever()">
   <p id="secondMsg" class="handwritten" style="margin-top:15px;font-size:1.8rem;opacity:0;">This was the moment everything began 💫<br>And I’d choose you all over again.</p>
   <p id="foreverMsg" class="forever handwritten" style="font-size:1.9rem;margin-top:10px;text-align:center;">Forever was an easy choice… it was always you 💐</p>
-</div>
 
-<!-- Surprise gift button -->
-<button id="giftBtn">🎁 Surprise Gift</button>
-<p id="giftMsg">I am your Gift baby 😉</p>
+  <!-- Surprise gift button and message -->
+  <button id="giftBtn">🎁 Surprise Gift</button>
+  <p id="giftMsg">Making up for this Valentine’s week, days which I missed to celebrate with you... Today I am your Gift Baby..</p>
+</div>
 
 <!-- Fullscreen -->
 <div class="fullscreen" id="fullscreen"><img id="fullscreenImg"></div>
 
 <script>
-// PAGE 1 typing
+// ------------------- PAGE 1 TYPING -------------------
 const typedText="Rishabh 💖 Hemanginee";
 let i=0;
 (function type(){ if(i<typedText.length){ typed.textContent+=typedText[i++]; setTimeout(type,120); }})();
 
-// PAGE 1 NO button
+// PAGE 1 NO BUTTON
 const lines=["Are you sure? 💘","Button has commitment issues 😂","My heart says YES 💖","I believe in you ✨","Oops 😏 try again","Wrong choice 😌"];
 let l=0;
 function moveNo(){ const box=document.querySelector(".buttons"); noBtn.style.left=Math.random()*(box.clientWidth-90)+"px"; noBtn.style.top=Math.random()*(box.clientHeight-40)+"px"; tease.textContent=lines[l++%lines.length]; }
 noBtn.onmouseenter=moveNo; noBtn.ontouchstart=moveNo;
 
 // AUDIO
-const music1=document.getElementById("music1");
-const music2=document.getElementById("music2");
-const music3=document.getElementById("music3");
-
-// Start music1 on first click
-page1.addEventListener("click", function playMusic1Once(){
+const music1 = document.getElementById("music1");
+const music3 = document.getElementById("music3");
+const music2 = document.getElementById("music2");
+page1.addEventListener("click", function playMusic1Once() {
   music1.play().catch(err=>console.log("Music1 blocked:",err));
   page1.removeEventListener("click", playMusic1Once);
 });
 
-// PAGE 2
+// PAGE 2 YES BUTTON
 yesBtn.onclick=()=>{
   page1.classList.remove("active");
   page2.classList.add("active");
@@ -174,18 +203,9 @@ yesBtn.onclick=()=>{
   startSlideshow();
 };
 
-// PAGE 2 → PAGE 3
-function goFinal(){
-  page2.classList.remove("active");
-  page3.classList.add("active");
-  music3.pause();
-  music2.play(); // music2 starts here
-  typeLoveMsg();
-}
-
-// SLIDESHOW
+// ------------------- SLIDESHOW -------------------
 function startSlideshow(){
-  const slides=document.querySelectorAll("#slideshow img");
+  const slides = document.querySelectorAll("#slideshow img");
   slides.forEach(img=>img.style.opacity=0);
   slides[0].style.opacity=1;
   let idx=0;
@@ -209,7 +229,7 @@ function startSlideshow(){
   },3500);
 }
 
-// Fullscreen images
+// FULLSCREEN IMAGES
 const fullscreen=document.getElementById("fullscreen");
 const fullscreenImg=document.getElementById("fullscreenImg");
 document.querySelectorAll("#reel img").forEach(img=>{
@@ -227,7 +247,7 @@ fullscreen.addEventListener("click", e=>{
   }
 });
 
-// PAGE 3 text
+// PAGE 3 TEXT & MUSIC
 const loveText="I Love You my Bacha .... Not just today, but every single day that follows 💘";
 const loveMsg=document.getElementById("loveMsg");
 const finalImg=document.getElementById("finalImg");
@@ -236,34 +256,73 @@ const foreverMsg=document.getElementById("foreverMsg");
 let li=0;
 function typeLoveMsg(){
   if(li<loveText.length){ loveMsg.textContent+=loveText[li++]; setTimeout(typeLoveMsg,80); }
-  else{
-    finalImg.style.opacity=1;
-    setTimeout(()=>{
-      secondMsg.style.transition="opacity 2s";
-      secondMsg.style.opacity=1;
-    },2000);
-  }
+  else{ finalImg.style.opacity=1; setTimeout(()=>{ secondMsg.style.transition="opacity 2s"; secondMsg.style.opacity=1; },2000);}
 }
-function revealForever(){ 
-  foreverMsg.classList.add("show"); 
-  // show gift button 2s after img10 click
+
+function goFinal(){
+  page2.classList.remove("active");
+  page3.classList.add("active");
+  music3.pause();
+  music2.play();
+  typeLoveMsg();
+}
+
+function revealForever(){
+  foreverMsg.classList.add("show");
+  const gift=document.getElementById("giftBtn");
   setTimeout(()=>{
-    const gift=document.getElementById("giftBtn");
     gift.style.top="200px";
     gift.style.opacity=1;
   },2000);
 }
 
-// Surprise gift button click
+// ------------------- SURPRISE GIFT BUTTON -------------------
 const giftBtn=document.getElementById("giftBtn");
-const giftMsg=document.getElementById("giftMsg");
-giftBtn.onclick=()=>{
-  giftMsg.style.opacity=1;
-  giftBtn.style.transform="rotate(10deg) scale(1.1)";
-  setTimeout(()=>giftBtn.style.transform="rotate(0deg) scale(1)",500);
-}
+giftBtn.onclick = function () {
+  const giftMsg = document.getElementById("giftMsg");
+  giftMsg.style.opacity = 1;
 
-// Floating hearts PAGE1
+  const gifts = ["🍫","🌹","🧸","🤗","😘"];
+  const duration = 2000;
+
+  for(let i=0;i<30;i++){
+    setTimeout(()=>{
+      const g = document.createElement("div");
+      g.className = "floatingGift";
+      g.textContent = gifts[Math.floor(Math.random()*gifts.length)];
+
+      g.style.left = Math.random()*window.innerWidth + "px";
+      g.style.top = window.innerHeight - 50 + "px";
+      g.style.fontSize = 24 + Math.random()*20 + "px";
+      g.style.opacity = 0;
+      g.style.position = "fixed";
+
+      document.body.appendChild(g);
+
+      const startX = parseFloat(g.style.left);
+      const startY = window.innerHeight - 50;
+      const angle = Math.random()*Math.PI - Math.PI/2;
+      const radius = 80 + Math.random()*120;
+
+      let start = null;
+      function animateGift(timestamp){
+        if(!start) start = timestamp;
+        const progress = timestamp - start;
+        const t = Math.min(progress/duration,1);
+        g.style.opacity = 1 - t;
+        g.style.transform = `translate(${radius*Math.cos(angle)*t}px, ${-radius*Math.sin(angle)*t}px)`;
+        if(t < 1) requestAnimationFrame(animateGift);
+        else g.remove();
+      }
+      requestAnimationFrame(animateGift);
+    }, i*100);
+  }
+
+  giftBtn.style.transform="rotate(10deg) scale(1.2)";
+  setTimeout(()=>giftBtn.style.transform="rotate(0deg) scale(1)",500);
+};
+
+// ------------------- FLOATING HEARTS & PETALS -------------------
 const floatIcons=["💖","💘","💜","🌹","🌸","✨"];
 setInterval(()=>{
   if(page1.classList.contains("active")){
@@ -278,7 +337,6 @@ setInterval(()=>{
   }
 },400);
 
-// Floating petals PAGE2
 function launchPage2Petals(){
   const petals=["🌹"];
   setInterval(()=>{
@@ -293,7 +351,6 @@ function launchPage2Petals(){
   },400);
 }
 
-// Floating flowers PAGE3
 function launchPage3Flowers(){
   const flowers=["💜","🤍","🌹","🌼"];
   setInterval(()=>{
@@ -301,32 +358,26 @@ function launchPage3Flowers(){
       const f=document.createElement("div"); f.className="floating";
       f.textContent=flowers[Math.floor(Math.random()*flowers.length)];
       f.style.left=Math.random()*100+"vw";
-      f.style.fontSize=(22+Math.random()*28)+"px";
+      f.style.fontSize=(24+Math.random()*20)+"px";
       f.style.animationDuration=(6+Math.random()*6)+"s";
       page3.appendChild(f); setTimeout(()=>f.remove(),12000);
     }
   },400);
 }
-launchPage3Flowers();
 
-// Background gradient
-const pages=document.querySelectorAll(".page");
-const gradients=['linear-gradient(135deg, #ffe4ec, #fff0f5)','linear-gradient(135deg, #ffd6e8, #ffb6d9)','linear-gradient(135deg, #fcd5ce, #f8c3c3)','linear-gradient(135deg, #e6d0ff, #f3c8ff)','linear-gradient(135deg, #ffe7f0, #ffdaf3)'];
-let gIndex=0;
-setInterval(()=>{ pages.forEach(p=>p.style.background=gradients[gIndex]); gIndex=(gIndex+1)%gradients.length; },2000);
-
-// Celebration fireworks
+// ------------------- CELEBRATION -------------------
 function launchCelebration(){
-  const rainIcons=["💖","💘","💜","🌹","🌸","✨"];
-  const fw=setInterval(()=>{ const f=document.createElement("div"); f.className="firework"; f.textContent="💖";
-    f.style.left=Math.random()*100+"vw"; f.style.top=Math.random()*60+"vh"; document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1500);
-  },220);
-  const rain=setInterval(()=>{ const r=document.createElement("div"); r.className="floating"; r.textContent=rainIcons[Math.floor(Math.random()*rainIcons.length)];
-    r.style.left=Math.random()*100+"vw"; r.style.fontSize=(18+Math.random()*22)+"px"; r.style.animationDuration=(4+Math.random()*3)+"s"; r.style.color="var(--heart-light)";
-    document.body.appendChild(r); setTimeout(()=>r.remove(),8000);
-  },120);
-  setTimeout(()=>{ clearInterval(fw); clearInterval(rain); },5000);
+  for(let i=0;i<20;i++){
+    setTimeout(()=>{
+      const f=document.createElement("div");
+      f.className="firework";
+      f.textContent="💖";
+      f.style.left=Math.random()*window.innerWidth+"px";
+      f.style.top=Math.random()*window.innerHeight+"px";
+      document.body.appendChild(f);
+      setTimeout(()=>f.remove(),1500);
+    }, i*200);
+  }
 }
 </script>
 </body>
