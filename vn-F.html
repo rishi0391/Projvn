@@ -15,10 +15,20 @@
 }
 *{box-sizing:border-box;}
 body{margin:0;font-family:'Poppins',sans-serif;color:var(--text);overflow:hidden;}
-.page{position:absolute;inset:0;display:none;justify-content:center;align-items:center;transition: background 2s ease;flex-direction:column;}
-.page.active{display:flex;}
+.page{
+  position:absolute;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  /* Faster & smooth background & color transitions */
+  transition: background 0.5s ease, color 0.5s ease;
+  background: linear-gradient(135deg, #fff6fa, #ffe0ea);
+}
 
 /* PAGE 1 */
+#page1{ background: linear-gradient(135deg, #fff6fa, #ffe0ea); }
 .card{background:var(--card);padding:32px 42px;border-radius:28px;width:95%;max-width:620px;text-align:center;box-shadow:0 30px 60px rgba(255,105,135,.25);display:flex;flex-direction:column;gap:16px;}
 .names{font-size:1.6rem;font-weight:600;color:#9d1745;}
 h1{margin:0;font-size:2.1rem;}
@@ -30,6 +40,7 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 .tease{min-height:26px;font-style:italic;color:#9d1745;}
 
 /* PAGE 2 */
+#page2{ background: linear-gradient(135deg, #ffe0ea, #ffd1e6); }
 .memory{flex-direction:column;gap:16px;padding:20px;text-align:center;}
 .yesConfirm{font-size:2rem;font-weight:800;color:var(--accent-dark);animation:pulse 2.2s ease-in-out infinite;margin-bottom:20px;}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
@@ -42,8 +53,9 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 @keyframes swing{0%{transform:rotate(-5deg);}50%{transform:rotate(5deg);}100%{transform:rotate(-5deg);}}
 
 /* PAGE 3 */
+#page3{ background: linear-gradient(135deg, #fff0f5, #ffe6f0); }
 .final{flex-direction:column;gap:18px;text-align:center;}
-.handwritten{font-family:'Sacramento',cursive;color:#9d1745;text-align:center;}
+.handwritten{font-family:'Sacramento',cursive;color:#9d2845;text-align:center;}
 .forever{opacity:0;transition:1.8s;font-style:italic;}
 
 /* Floating elements */
@@ -57,7 +69,6 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 /* Fullscreen overlay */
 .fullscreen{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;z-index:999;cursor:pointer;}
 .fullscreen img{max-width:90%;max-height:90%;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.5);transform: scale(0.8);opacity:0;transition: transform 0.4s ease, opacity 0.4s ease;}
-.fullscreen.show img{transform: scale(1);opacity:1;}
 
 /* Surprise gift button */
 #giftBtn{
@@ -177,35 +188,44 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 <div class="fullscreen" id="fullscreen"><img id="fullscreenImg"></div>
 
 <script>
-// PAGE1 typing
+// ================= PAGE1 typing =================
 const typedText="Rishabh 💖 Hemanginee";
 let i=0;
 (function type(){ if(i<typedText.length){ typed.textContent+=typedText[i++]; setTimeout(type,120); }})();
 
-// PAGE1 NO button
+// ================= NO button =================
 const lines=["Are you sure? 💘","Button has commitment issues 😂","My heart says YES 💖","I believe in you ✨","Oops 😏 try again","Wrong choice 😌"];
 let l=0;
-function moveNo(){ const box=document.querySelector(".buttons"); noBtn.style.left=Math.random()*(box.clientWidth-90)+"px"; noBtn.style.top=Math.random()*(box.clientHeight-40)+"px"; tease.textContent=lines[l++%lines.length]; }
-noBtn.onmouseenter=moveNo; noBtn.ontouchstart=moveNo;
+function moveNo(){ 
+  const box=document.querySelector(".buttons"); 
+  noBtn.style.left=Math.random()*(box.clientWidth-90)+"px"; 
+  noBtn.style.top=Math.random()*(box.clientHeight-40)+"px"; 
+  tease.textContent=lines[l++%lines.length]; 
+}
+noBtn.onmouseenter=moveNo; 
+noBtn.ontouchstart=moveNo;
 
-// AUDIO
+// ================= AUDIO =================
 const music1 = document.getElementById("music1");
 const music3 = document.getElementById("music3");
 const music2 = document.getElementById("music2");
 page1.addEventListener("click", function playMusic1Once() { music1.play().catch(()=>{}); page1.removeEventListener("click", playMusic1Once); });
 
-// PAGE2 YES button
-yesBtn.onclick=()=>{
+// ================= PAGE2 YES button =================
+yesBtn.onclick = () => {
   page1.classList.remove("active");
   page2.classList.add("active");
-  music1.pause(); music1.currentTime=0;
+  page2.style.background = "linear-gradient(135deg, #ffe0ea, #ffd1e6)"; // faster gradient transition
+
+  music1.pause(); music1.currentTime = 0;
   music3.play();
+
   launchCelebration();
   launchPage2Petals();
   startSlideshow();
 };
 
-// SLIDESHOW
+// ================= SLIDESHOW =================
 function startSlideshow(){
   const slides = document.querySelectorAll("#slideshow img");
   slides.forEach(img=>img.style.opacity=0);
@@ -231,7 +251,7 @@ function startSlideshow(){
   },3500);
 }
 
-// Fullscreen images
+// ================= Fullscreen =================
 const fullscreen=document.getElementById("fullscreen");
 const fullscreenImg=document.getElementById("fullscreenImg");
 document.querySelectorAll("#reel img").forEach(img=>{
@@ -249,7 +269,7 @@ fullscreen.addEventListener("click", e=>{
   }
 });
 
-// PAGE3 text & music2
+// ================= PAGE3 text & music2 =================
 const loveMsg=document.getElementById("loveMsg");
 const finalImg=document.getElementById("finalImg");
 const secondMsg=document.getElementById("secondMsg");
@@ -271,25 +291,24 @@ function typeLoveMsg(){
 function goFinal(){
   page2.classList.remove("active");
   page3.classList.add("active");
-  music3.pause();
+  page3.style.background = "linear-gradient(135deg, #fff0f5, #ffe6f0)"; // smooth gradient
+
+  music3.pause(); music3.currentTime = 0;
   music2.play();
+
   typeLoveMsg();
 }
 
-let foreverRevealed = false; // flag to prevent hiding
-
+let foreverRevealed = false;
 function revealForever() {
-  if (foreverRevealed) return; // do nothing if already revealed
-
+  if (foreverRevealed) return;
   foreverRevealed = true;
 
-  // Make messages fully visible
   loveMsg.style.opacity = 1;
   secondMsg.style.opacity = 1;
   foreverMsg.style.opacity = 1;
   foreverMsg.style.transition = "opacity 2s";
 
-  // Show gift button
   setTimeout(() => {
     giftBtn.style.opacity = 1;
     giftBtn.style.top = "200px";
@@ -297,15 +316,14 @@ function revealForever() {
   }, 1000);
 }
 
-
-// Surprise gift button
-giftBtn.onclick=function(){
-  giftMsg.style.opacity=1;
+// ================= Surprise gift =================
+giftBtn.onclick = function(){
+  giftMsg.style.opacity = 1;
   const gifts=["🍫","🌹","🧸","🤗","😘"];
-  const startTime=Date.now();
-  const fireDuration=3000;
-  const fireInterval=setInterval(()=>{
-    if(Date.now()-startTime>fireDuration){ clearInterval(fireInterval); return; }
+  const startTime = Date.now();
+  const fireDuration = 3000;
+  const fireInterval = setInterval(()=>{
+    if(Date.now()-startTime > fireDuration){ clearInterval(fireInterval); return; }
     for(let i=0;i<8;i++){
       const g=document.createElement("div"); g.className="floatingGift"; g.textContent=gifts[Math.floor(Math.random()*gifts.length)];
       const startX=Math.random()*window.innerWidth; const startY=window.innerHeight-50;
@@ -319,7 +337,7 @@ giftBtn.onclick=function(){
   setTimeout(()=>giftBtn.style.transform="rotate(0deg) scale(1)",500);
 }
 
-// Floating hearts PAGE1
+// ================= Floating hearts PAGE1 =================
 const floatIcons=["💖","💘","💜","🌹","🌸","✨"];
 setInterval(()=>{
   if(page1.classList.contains("active")){
@@ -335,7 +353,7 @@ setInterval(()=>{
   }
 },400);
 
-// Floating petals PAGE2
+// ================= Floating petals PAGE2 =================
 function launchPage2Petals(){
   const petals=["🌹"];
   setInterval(()=>{
@@ -349,7 +367,7 @@ function launchPage2Petals(){
   },400);
 }
 
-// Floating flowers PAGE3
+// ================= Floating flowers PAGE3 =================
 function launchPage3Flowers(){
   const flowers=["💜","🤍","🌹","🌼"];
   setInterval(()=>{
@@ -364,7 +382,7 @@ function launchPage3Flowers(){
 }
 launchPage3Flowers();
 
-// Fireworks celebration PAGE2
+// ================= Fireworks PAGE2 =================
 function launchCelebration(){
   const fireworks=["💖","💘","💜","🌹","✨"];
   for(let i=0;i<12;i++){
@@ -376,6 +394,5 @@ function launchCelebration(){
   }
 }
 </script>
-
 </body>
 </html>
