@@ -364,6 +364,48 @@ function launchCelebration(){
     setTimeout(()=>f.remove(),1500);
   }
 }
+  // Surprise gift button functionality
+giftBtn.onclick = function() {
+  // Show the gift message
+  giftMsg.style.opacity = 1;
+
+  // Floating gift icons effect
+  const gifts = ["🍫","🌹","🧸","🤗","😘"];
+  const duration = 3000; // duration of floating gifts
+  const startTime = Date.now();
+
+  const interval = setInterval(() => {
+    if (Date.now() - startTime > duration) {
+      clearInterval(interval);
+      return;
+    }
+    for (let i = 0; i < 8; i++) {
+      const g = document.createElement("div");
+      g.className = "floatingGift";
+      g.textContent = gifts[Math.floor(Math.random() * gifts.length)];
+
+      const startX = Math.random() * window.innerWidth;
+      const startY = window.innerHeight - 50;
+      g.style.left = startX + "px";
+      g.style.top = startY + "px";
+
+      const angle = Math.random() * Math.PI - Math.PI/2;
+      const radius = 80 + Math.random() * 120;
+      g.style.setProperty("--x", radius * Math.cos(angle));
+      g.style.setProperty("--y", -radius * Math.sin(angle));
+
+      document.body.appendChild(g);
+      setTimeout(() => g.remove(), 2000);
+    }
+  }, 200);
+
+  // Add small button animation
+  giftBtn.style.transform = "rotate(10deg) scale(1.2)";
+  setTimeout(() => {
+    giftBtn.style.transform = "rotate(0deg) scale(1)";
+  }, 500);
+};
+
 </script>
 
 </body>
