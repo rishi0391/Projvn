@@ -14,60 +14,71 @@
   --heart-light:#ffbad0;
 }
 *{box-sizing:border-box;}
-body{margin:0;font-family:'Poppins',sans-serif;color:var(--text);overflow:hidden;}
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  color:var(--text);
+  overflow:hidden;
+}
+
+/* Background transition */
 .page{
   position:absolute;
   inset:0;
-  display:none;
+  display:flex;
   justify-content:center;
   align-items:center;
   transition: background 2s ease;
 }
-.page.active{display:flex;flex-direction:column;}
 
-/* PAGE 1 */
-.card{background:var(--card);padding:32px 42px;border-radius:28px;width:95%;max-width:620px;text-align:center;box-shadow:0 30px 60px rgba(255,105,135,.25);display:flex;flex-direction:column;gap:16px;}
-.names{font-size:1.6rem;font-weight:600;color:#9d174d;}
-h1{margin:0;font-size:2.1rem;}
-.subtitle{opacity:.85;}
-.buttons{position:relative;height:120px;}
-button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor:pointer;font-weight:600;}
-#yesBtn{background:var(--accent);color:white;position:absolute;left:50%;bottom:0;transform:translateX(-50%);box-shadow:0 10px 25px rgba(255,105,135,.45);}
-#noBtn{background:#ffe0ea;color:#9d1745;position:absolute;top:0;left:0;}
-.tease{min-height:26px;font-style:italic;color:#9d1745;}
-
-/* PAGE 2 */
-.memory{flex-direction:column;gap:16px;padding:20px;text-align:center;}
-.yesConfirm{font-size:2rem;font-weight:800;color:var(--accent-dark);animation:pulse 2.2s ease-in-out infinite;margin-bottom:20px;}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-
-/* PAGE 3 */
-.final{flex-direction:column;gap:18px;text-align:center;}
-.handwritten{font-family:'Sacramento',cursive;color:#9d1745;text-align:center;}
-.forever{opacity:0;transition:1.8s;font-style:italic;}
-.forever.show{opacity:1;}
-
-/* Romantic Rain Effect */
-.rainGift{
+/* Surprise Button */
+#giftBtn{
   position:fixed;
-  top:-50px;
+  bottom:40px;
+  right:40px;
+  background:#ff69b4;
+  color:white;
+  padding:14px 28px;
+  border:none;
+  border-radius:28px;
+  font-size:1.1rem;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(255,105,135,.45);
+  z-index:500;
+  transition:transform .3s;
+}
+
+/* Romantic Burst Effect */
+.burstGift{
+  position:fixed;
   font-size:28px;
   pointer-events:none;
   z-index:300;
-  animation: giftRain linear forwards;
+  animation: giftBurst 1.8s ease-out forwards;
 }
-@keyframes giftRain{
-  0%{ transform:translateY(0) rotate(0deg); opacity:1; }
-  100%{ transform:translateY(110vh) rotate(360deg); opacity:0; }
+
+@keyframes giftBurst{
+  0%{
+    transform:translate(0,0) scale(0.3);
+    opacity:1;
+  }
+  70%{
+    opacity:1;
+  }
+  100%{
+    transform:translate(var(--x), var(--y)) scale(1.4);
+    opacity:0;
+  }
 }
 </style>
 </head>
 <body>
 
-<!-- Surprise Button -->
-<button id="giftBtn" style="position:fixed;bottom:40px;right:40px;background:#ff69b4;color:white;padding:14px 28px;border:none;border-radius:28px;font-size:1.1rem;cursor:pointer;box-shadow:0 10px 25px rgba(255,105,135,.45);">
-🎁 Surprise Gift
-</button>
+<div class="page active" id="page1">
+  <h1>Always You 💖</h1>
+</div>
+
+<button id="giftBtn">🎁 Surprise Gift</button>
 
 <script>
 
@@ -86,11 +97,7 @@ const gradients = [
 let gIndex = 0;
 
 function changeBackground() {
-  document.querySelectorAll(".page").forEach(page => {
-    if (page.classList.contains("active")) {
-      page.style.background = gradients[gIndex];
-    }
-  });
+  document.getElementById("page1").style.background = gradients[gIndex];
   gIndex = (gIndex + 1) % gradients.length;
 }
 
@@ -98,36 +105,52 @@ changeBackground();
 setInterval(changeBackground, 3500);
 
 /* =========================
-   SURPRISE RAIN WITH HUGS
+   SURPRISE BURST EFFECT
 ========================= */
 
-const giftBtn=document.getElementById("giftBtn");
+const giftBtn = document.getElementById("giftBtn");
 
-giftBtn.onclick=function(){
+giftBtn.onclick = function(){
 
-  const gifts=["🍫","🍫","🧸","🧸","💋","😘","🌹","🌹","🤗","🤗"];
+  const gifts=["🍫","🧸","💋","😘","🌹","🤗"];
 
-  const duration = 5000;
-  const start = Date.now();
+  const startX = window.innerWidth / 2;
+  const startY = window.innerHeight - 120;
 
-  const rainInterval = setInterval(()=>{
-    if(Date.now() - start > duration){
-      clearInterval(rainInterval);
+  const duration = 3000;
+  const startTime = Date.now();
+
+  const burstInterval = setInterval(()=>{
+
+    if(Date.now() - startTime > duration){
+      clearInterval(burstInterval);
       return;
     }
 
-    const g=document.createElement("div");
-    g.className="rainGift";
-    g.textContent=gifts[Math.floor(Math.random()*gifts.length)];
+    for(let i=0;i<14;i++){
 
-    g.style.left=Math.random()*100+"vw";
-    g.style.animationDuration=(4+Math.random()*3)+"s";
+      const g=document.createElement("div");
+      g.className="burstGift";
+      g.textContent=gifts[Math.floor(Math.random()*gifts.length)];
 
-    document.body.appendChild(g);
+      g.style.left=startX+"px";
+      g.style.top=startY+"px";
 
-    setTimeout(()=>g.remove(),7000);
+      const angle=Math.random()*Math.PI*2;
+      const radius=80+Math.random()*180;
 
-  },120);
+      const x=Math.cos(angle)*radius+"px";
+      const y=Math.sin(angle)*radius*-1+"px";
+
+      g.style.setProperty("--x",x);
+      g.style.setProperty("--y",y);
+
+      document.body.appendChild(g);
+
+      setTimeout(()=>g.remove(),1800);
+    }
+
+  },200);
 
   giftBtn.style.transform="scale(1.15) rotate(8deg)";
   setTimeout(()=>giftBtn.style.transform="scale(1) rotate(0deg)",400);
