@@ -15,8 +15,8 @@
 }
 *{box-sizing:border-box;}
 body{margin:0;font-family:'Poppins',sans-serif;color:var(--text);overflow:hidden;}
-.page{position:absolute;inset:0;display:none;justify-content:center;align-items:center;transition: background 2s ease;}
-.page.active{display:flex;flex-direction:column;}
+.page{position:absolute;inset:0;display:none;justify-content:center;align-items:center;transition: background 2s ease;flex-direction:column;}
+.page.active{display:flex;}
 
 /* PAGE 1 */
 .card{background:var(--card);padding:32px 42px;border-radius:28px;width:95%;max-width:620px;text-align:center;box-shadow:0 30px 60px rgba(255,105,135,.25);display:flex;flex-direction:column;gap:16px;}
@@ -50,7 +50,7 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 .floating{position:fixed;top:-40px;pointer-events:none;z-index:80;animation-name:floatDrift;animation-timing-function:linear;animation-fill-mode:forwards;}
 @keyframes floatDrift{0%{transform:translate(0,0) rotate(0deg);opacity:0.9;}25%{transform:translate(15px,25vh) rotate(20deg);}50%{transform:translate(-10px,50vh) rotate(-15deg);}75%{transform:translate(10px,75vh) rotate(10deg);}100%{transform:translate(0,100vh) rotate(360deg);opacity:0;}}
 
-/* Fireworks - lighter hearts */
+/* Fireworks */
 .firework{position:fixed;font-size:28px;pointer-events:none;animation:boom 1.5s ease-out forwards;z-index:120;color:var(--heart-light);}
 @keyframes boom{0%{transform:scale(0.2);opacity:0.8}70%{transform:scale(2.5);opacity:0.8}100%{transform:scale(3.5);opacity:0;}}
 
@@ -74,6 +74,7 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
   opacity:0;
   transition: all 1s ease;
 }
+
 /* Gift message */
 #giftMsg{
   position:absolute;
@@ -87,6 +88,7 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
   opacity:0;
   transition:opacity 1.5s;
 }
+
 /* Floating gift icons */
 .floatingGift{
   position:fixed;
@@ -154,14 +156,20 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 <!-- PAGE 3 -->
 <div class="page final" id="page3">
   <p id="loveMsg" class="handwritten" style="font-size:2rem;margin-bottom:15px;"></p>
-  <img src="img/img10.jpg" id="finalImg" style="opacity:0;transition:opacity 2s;width:400px;max-width:85%;border-radius:24px;cursor:pointer;box-shadow:0 18px 40px rgba(255,105,135,.35);" onclick="revealForever()">
-  <p id="secondMsg" class="handwritten" style="margin-top:15px;font-size:1.8rem;opacity:0;">This was the moment everything began 💫<br>And I’d choose you all over again.</p>
-  <p id="foreverMsg" class="forever handwritten" style="font-size:1.9rem;margin-top:10px;text-align:center;">Forever was an easy choice… it was always you 💐</p>
-
-  <!-- Surprise Gift -->
+  <img src="img/img10.jpg" id="finalImg"
+       style="opacity:0;transition:opacity 2s;width:400px;max-width:85%;border-radius:24px;cursor:pointer;box-shadow:0 18px 40px rgba(255,105,135,.35);"
+       onclick="revealForever()">
+  <p id="secondMsg" class="handwritten" style="margin-top:15px;font-size:1.8rem;opacity:0;">
+    This was the moment everything began 💫<br>And I’d choose you all over again.
+  </p>
+  <p id="foreverMsg" class="forever handwritten"
+     style="font-size:1.9rem;margin-top:10px;text-align:center;opacity:0;">
+    Forever was an easy choice… it was always you 💐
+  </p>
   <button id="giftBtn">🎁 Surprise Gift</button>
   <p id="giftMsg">
-Making up for this Valentine’s week, days which I missed to celebrate with you... Today I am your Gift Baby..
+    Making up for this Valentine’s week, days which I missed to celebrate with you...
+    Today I am your Gift Baby..
   </p>
 </div>
 
@@ -186,7 +194,7 @@ const music3 = document.getElementById("music3");
 const music2 = document.getElementById("music2");
 page1.addEventListener("click", function playMusic1Once() { music1.play().catch(()=>{}); page1.removeEventListener("click", playMusic1Once); });
 
-// PAGE2 YES
+// PAGE2 YES button
 yesBtn.onclick=()=>{
   page1.classList.remove("active");
   page2.classList.add("active");
@@ -242,29 +250,51 @@ fullscreen.addEventListener("click", e=>{
 });
 
 // PAGE3 text & music2
-const loveText="I Love You my Bacha .... Not just today, but every single day that follows 💘";
 const loveMsg=document.getElementById("loveMsg");
 const finalImg=document.getElementById("finalImg");
 const secondMsg=document.getElementById("secondMsg");
 const foreverMsg=document.getElementById("foreverMsg");
-let li=0;
-function typeLoveMsg(){ if(li<loveText.length){ loveMsg.textContent+=loveText[li++]; setTimeout(typeLoveMsg,80); } else{ finalImg.style.opacity=1; setTimeout(()=>{ secondMsg.style.transition="opacity 2s"; secondMsg.style.opacity=1; },2000);} }
-function goFinal(){ page2.classList.remove("active"); page3.classList.add("active"); music3.pause(); music2.play(); typeLoveMsg(); }
-
-// Surprise gift
 const giftBtn=document.getElementById("giftBtn");
-function revealForever(){
-  foreverMsg.classList.add("show");
-  setTimeout(()=>{
-    giftBtn.style.opacity = 1;
-    giftBtn.style.top = "200px";
-    giftBtn.style.transition="all 1s cubic-bezier(0.68,-0.55,0.27,1.55)";
-  },2000);
+const giftMsg=document.getElementById("giftMsg");
+let li=0;
+const loveText="I Love You my Bacha .... Not just today, but every single day that follows 💘";
+
+function typeLoveMsg(){
+  if(li<loveText.length){
+    loveMsg.textContent += loveText[li++];
+    setTimeout(typeLoveMsg,80);
+  } else {
+    finalImg.style.opacity=1;
+    setTimeout(()=>{ secondMsg.style.transition="opacity 2s"; secondMsg.style.opacity=1; },2000);
+  }
 }
+function goFinal(){
+  page2.classList.remove("active");
+  page3.classList.add("active");
+  music3.pause();
+  music2.play();
+  typeLoveMsg();
+}
+
+function revealForever(){
+  loveMsg.style.opacity=1;
+  secondMsg.style.opacity=1;
+  foreverMsg.style.opacity=1;
+  foreverMsg.style.transition="opacity 2s";
+
+  setTimeout(()=>{
+    giftBtn.style.opacity=1;
+    giftBtn.style.top="200px";
+    giftBtn.style.transition="all 1s cubic-bezier(0.68,-0.55,0.27,1.55)";
+  },1000);
+}
+
+// Surprise gift button
 giftBtn.onclick=function(){
-  const giftMsg=document.getElementById("giftMsg"); giftMsg.style.opacity=1;
+  giftMsg.style.opacity=1;
   const gifts=["🍫","🌹","🧸","🤗","😘"];
-  const startTime=Date.now(); const fireDuration=3000;
+  const startTime=Date.now();
+  const fireDuration=3000;
   const fireInterval=setInterval(()=>{
     if(Date.now()-startTime>fireDuration){ clearInterval(fireInterval); return; }
     for(let i=0;i<8;i++){
@@ -276,7 +306,8 @@ giftBtn.onclick=function(){
       document.body.appendChild(g); setTimeout(()=>g.remove(),2000);
     }
   },200);
-  giftBtn.style.transform="rotate(10deg) scale(1.2)"; setTimeout(()=>giftBtn.style.transform="rotate(0deg) scale(1)",500);
+  giftBtn.style.transform="rotate(10deg) scale(1.2)";
+  setTimeout(()=>giftBtn.style.transform="rotate(0deg) scale(1)",500);
 }
 
 // Floating hearts PAGE1
@@ -290,7 +321,8 @@ setInterval(()=>{
     r.style.fontSize=(20+Math.random()*30)+"px";
     r.style.animationDuration=(6+Math.random()*6)+"s";
     r.style.color="var(--heart-light)";
-    page1.appendChild(r); setTimeout(()=>r.remove(),12000);
+    page1.appendChild(r);
+    setTimeout(()=>r.remove(),12000);
   }
 },400);
 
@@ -315,7 +347,7 @@ function launchPage3Flowers(){
     if(page3.classList.contains("active")){
       const f=document.createElement("div"); f.className="floating"; f.textContent=flowers[Math.floor(Math.random()*flowers.length)];
       f.style.left=Math.random()*100+"vw";
-      f.style.fontSize=(22+Math.random()*28)+"px";
+      f.style.fontSize=(20+Math.random()*30)+"px";
       f.style.animationDuration=(6+Math.random()*6)+"s";
       page3.appendChild(f); setTimeout(()=>f.remove(),12000);
     }
@@ -323,23 +355,18 @@ function launchPage3Flowers(){
 }
 launchPage3Flowers();
 
-// Background gradient
-const pages=document.querySelectorAll(".page");
-const gradients=['linear-gradient(135deg, #ffe4ec, #fff0f5)','linear-gradient(135deg, #ffd6e8, #ffb6d9)','linear-gradient(135deg, #fcd5ce, #f8e1ff)'];
-let gi=0; setInterval(()=>{ pages.forEach(p=>p.style.background=gradients[gi%gradients.length]); gi++; },8000);
-
-// Celebration hearts
+// Fireworks celebration PAGE2
 function launchCelebration(){
-  const colors=["#ff69b4","#ff1493","#ffb6c1","#f08080"];
-  setInterval(()=>{
-    if(page2.classList.contains("active")){
-      const h=document.createElement("div"); h.className="firework";
-      h.style.left=Math.random()*window.innerWidth+"px"; h.style.top=Math.random()*window.innerHeight+"px";
-      h.style.color=colors[Math.floor(Math.random()*colors.length)]; h.textContent="💖"; page2.appendChild(h);
-      setTimeout(()=>h.remove(),1500);
-    }
-  },300);
+  const fireworks=["💖","💘","💜","🌹","✨"];
+  for(let i=0;i<12;i++){
+    const f=document.createElement("div"); f.className="firework"; f.textContent=fireworks[Math.floor(Math.random()*fireworks.length)];
+    f.style.left=Math.random()*window.innerWidth+"px"; f.style.top=Math.random()*window.innerHeight+"px";
+    f.style.animationDuration=(1+Math.random()*1.5)+"s";
+    page2.appendChild(f);
+    setTimeout(()=>f.remove(),1500);
+  }
 }
 </script>
+
 </body>
 </html>
