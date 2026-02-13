@@ -14,9 +14,36 @@
   --heart-light:#ffbad0;
 }
 *{box-sizing:border-box;}
-body{margin:0;font-family:'Poppins',sans-serif;color:var(--text);overflow:hidden;}
-.page{position:absolute;inset:0;display:none;justify-content:center;align-items:center;transition: background 2s ease;}
-.page.active{display:flex;flex-direction:column;}
+
+/* BODY & BACKGROUND */
+body {
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  color:var(--text);
+  overflow:hidden;
+  background: linear-gradient(135deg, #f8a5c2, #f78fb3);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* PAGES */
+.page {
+  position:absolute;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background: transparent;
+  transition: background 2s ease;
+}
+.page.active{display:flex;}
 
 /* PAGE 1 */
 .card{background:var(--card);padding:32px 42px;border-radius:28px;width:95%;max-width:620px;text-align:center;box-shadow:0 30px 60px rgba(255,105,135,.25);display:flex;flex-direction:column;gap:16px;}
@@ -26,7 +53,7 @@ h1{margin:0;font-size:2.1rem;}
 .buttons{position:relative;height:120px;}
 button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor:pointer;font-weight:600;}
 #yesBtn{background:var(--accent);color:white;position:absolute;left:50%;bottom:0;transform:translateX(-50%);box-shadow:0 10px 25px rgba(255,105,135,.45);}
-#noBtn{background:#ffe0ea;color:#9d1745;position:absolute;top:0;left:0;}
+#noBtn{background:#ffe0ea;color:#9d2845;position:absolute;top:0;left:0;}
 .tease{min-height:26px;font-style:italic;color:#9d1745;}
 
 /* PAGE 2 */
@@ -45,7 +72,6 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 .final{flex-direction:column;gap:18px;text-align:center;}
 .handwritten{font-family:'Sacramento',cursive;color:#9d1745;text-align:center;}
 .forever{opacity:0;transition:1.8s;font-style:italic;}
-.forever.show{opacity:1;}
 
 /* Floating elements */
 .floating{position:fixed;top:-40px;pointer-events:none;z-index:80;animation-name:floatDrift;animation-timing-function:linear;animation-fill-mode:forwards;}
@@ -293,23 +319,6 @@ function launchPage3Flowers(){ const flowers=["💜","🤍","🌹","🌼"]; setI
 
 // --- Fireworks PAGE2 ---
 function launchCelebration(){ for(let i=0;i<15;i++){ const fire=document.createElement("div"); fire.className="firework"; fire.style.left=Math.random()*100+"vw"; fire.style.top=Math.random()*60+"vh"; fire.style.fontSize=(20+Math.random()*30)+"px"; page2.appendChild(fire); setTimeout(()=>fire.remove(),1500);}}
-
-// --- Background gradient from Code E ---
-const pages = document.querySelectorAll(".page");
-const pageBackgrounds = [
-  "linear-gradient(135deg, #f8a5c2, #f78fb3)",
-  "linear-gradient(135deg, #f6e58d, #ffbe76)",
-  "linear-gradient(135deg, #81ecec, #74b9ff)",
-  "linear-gradient(135deg, #a29bfe, #dfe6e9)",
-  "linear-gradient(135deg, #fab1a0, #ff7675)"
-];
-let bgIndex = 0;
-setInterval(() => {
-  pages.forEach(p => {
-    p.style.background = pageBackgrounds[bgIndex];
-  });
-  bgIndex = (bgIndex + 1) % pageBackgrounds.length;
-}, 2500);
 </script>
 </body>
 </html>
