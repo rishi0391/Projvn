@@ -134,30 +134,38 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1rem;cursor:po
 
 <script>
 /* ELEMENTS */
-const page1=document.getElementById("page1");
-const page2=document.getElementById("page2");
-const page3=document.getElementById("page3");
-const noBtn=document.getElementById("noBtn");
-const yesBtn=document.getElementById("yesBtn");
-const typed=document.getElementById("typed");
-const giftBtn=document.getElementById("giftBtn");
-const giftMsg=document.getElementById("giftMsg");
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
+const page3 = document.getElementById("page3");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const typed = document.getElementById("typed");
+const giftBtn = document.getElementById("giftBtn");
+const giftMsg = document.getElementById("giftMsg");
 
 /* PAGE1 TYPEWRITER */
-const typedText="Rishabh 💖 Hemanginee";
-let i=0;
-(function type(){ if(i<typedText.length){ typed.textContent+=typedText[i++]; setTimeout(type,120); }})();
+const typedText = "Rishabh 💖 Hemanginee";
+let i = 0;
+(function type() {
+  if (i < typedText.length) {
+    typed.textContent += typedText[i++];
+    setTimeout(type, 120);
+  }
+})();
 
 /* NO BUTTON FUN */
-const lines=["Are you sure? 💘","Button has commitment issues 😂","My heart says YES 💖","Oops 😏 try again"];
-let l=0;
-function moveNo(){ 
-  const box=document.querySelector(".buttons"); 
-  noBtn.style.left=Math.random()*(box.clientWidth-90)+"px"; 
-  noBtn.style.top=Math.random()*(box.clientHeight-40)+"px"; 
-  document.getElementById("tease").textContent=lines[l++%lines.length]; 
+const lines = ["Are you sure? 💘", "Button has commitment issues 😂", "My heart says YES 💖", "Oops 😏 try again"];
+let l = 0;
+function moveNo() { 
+  const box = document.querySelector(".buttons"); 
+  const maxX = box.clientWidth - noBtn.offsetWidth;
+  const maxY = box.clientHeight - noBtn.offsetHeight;
+  noBtn.style.left = Math.random() * maxX + "px"; 
+  noBtn.style.top = Math.random() * maxY + "px"; 
+  document.getElementById("tease").textContent = lines[l++ % lines.length]; 
 }
-noBtn.onmouseenter=moveNo; noBtn.ontouchstart=moveNo;
+noBtn.onmouseenter = moveNo; 
+noBtn.ontouchstart = moveNo;
 
 /* AUDIO */
 const music1 = document.getElementById("music1");
@@ -166,15 +174,15 @@ const music3 = document.getElementById("music3");
 
 /* FIRST CLICK MUSIC */
 page1.addEventListener("click", function playMusic1Once() {
-  music1.play().catch(err=>console.log(err));
+  music1.play().catch(err => console.log(err));
   page1.removeEventListener("click", playMusic1Once);
 });
 
 /* YES BUTTON PAGE2 */
-yesBtn.onclick=()=>{
+yesBtn.onclick = () => {
   page1.classList.remove("active");
   page2.classList.add("active");
-  music1.pause(); music1.currentTime=0;
+  music1.pause(); music1.currentTime = 0;
   music3.play();
   launchCelebration();
   launchPage2Petals();
@@ -182,89 +190,142 @@ yesBtn.onclick=()=>{
 };
 
 /* SLIDESHOW */
-function startSlideshow(){
-  const slides=document.querySelectorAll("#slideshow img");
-  let idx=0;
-  slides.forEach(img=>img.style.opacity=0);
-  slides[0].style.opacity=1;
-  const interval=setInterval(()=>{
-    slides[idx].style.opacity=0;
+function startSlideshow() {
+  const slides = document.querySelectorAll("#slideshow img");
+  let idx = 0;
+  slides.forEach(img => img.style.opacity = 0);
+  slides[0].style.opacity = 1;
+
+  const interval = setInterval(() => {
+    slides[idx].style.opacity = 0;
     idx++;
-    if(idx>=slides.length){
+    if (idx >= slides.length) {
       clearInterval(interval);
-      document.getElementById("slideshow").style.display="none";
-      document.getElementById("reel").style.display="flex";
-      document.getElementById("memoryLaneTitle").style.opacity=1;
+      slides[slides.length - 1].style.opacity = 1;
+      setTimeout(() => {
+        document.getElementById("slideshow").style.display = "none";
+        document.getElementById("reel").style.display = "flex";
+        document.getElementById("memoryLaneTitle").style.opacity = 1;
+      }, 1500);
       return;
     }
-    slides[idx].style.opacity=1;
-  },3500);
+    slides[idx].style.opacity = 1;
+  }, 3500);
 }
 
 /* PAGE3 */
-const loveMsg=document.getElementById("loveMsg");
-const finalImg=document.getElementById("finalImg");
-const secondMsg=document.getElementById("secondMsg");
-const foreverMsg=document.getElementById("foreverMsg");
-let li=0;
-function typeLoveMsg(){ 
-  if(li<"I Love You my Bacha .... Not just today, but every single day that follows 💘".length){ 
-    loveMsg.textContent+="I Love You my Bacha .... Not just today, but every single day that follows 💘"[li++]; 
-    setTimeout(typeLoveMsg,80); 
+const loveMsg = document.getElementById("loveMsg");
+const finalImg = document.getElementById("finalImg");
+const secondMsg = document.getElementById("secondMsg");
+const foreverMsg = document.getElementById("foreverMsg");
+let li = 0;
+const loveText = "I Love You my Bacha .... Not just today, but every single day that follows 💘";
+function typeLoveMsg() { 
+  if (li < loveText.length) { 
+    loveMsg.textContent += loveText[li++]; 
+    setTimeout(typeLoveMsg, 80); 
   } else { 
-    finalImg.style.opacity=1; 
-    setTimeout(()=>secondMsg.style.opacity=1,2000);
+    finalImg.style.opacity = 1; 
+    setTimeout(() => secondMsg.style.opacity = 1, 2000);
   }
 }
-function goFinal(){ page2.classList.remove("active"); page3.classList.add("active"); music3.pause(); music2.play(); typeLoveMsg(); }
+function goFinal() { 
+  page2.classList.remove("active"); 
+  page3.classList.add("active"); 
+  music3.pause(); music2.play(); 
+  typeLoveMsg(); 
+}
 
 /* FOREVER + GIFT */
-function revealForever(){
+function revealForever() {
   foreverMsg.classList.add("show");
-  setTimeout(()=>{
-    giftBtn.style.opacity=1;
-    giftBtn.style.top="200px";
-    giftBtn.style.transition="all 1s cubic-bezier(0.68,-0.55,0.27,1.55)";
-  },2000);
+  setTimeout(() => {
+    giftBtn.style.opacity = 1;
+    giftBtn.style.top = "200px";
+    giftBtn.style.transition = "all 1s cubic-bezier(0.68,-0.55,0.27,1.55)";
+  }, 2000);
 }
 
 /* SURPRISE GIFT */
-giftBtn.onclick=function(){
-  giftMsg.style.opacity=1;
-  const gifts=["🍫","🌹","🧸","🤗","😘"];
-  const startTime=Date.now();
-  const fireDuration=3000;
-  const fireInterval=setInterval(()=>{
-    if(Date.now()-startTime>fireDuration){ clearInterval(fireInterval); return; }
-    for(let i=0;i<8;i++){
-      const g=document.createElement("div");
-      g.className="floatingGift";
-      g.textContent=gifts[Math.floor(Math.random()*gifts.length)];
-      const startX=Math.random()*window.innerWidth;
-      const startY=window.innerHeight-50;
-      g.style.left=startX+"px";
-      g.style.top=startY+"px";
-      const angle=Math.random()*Math.PI-Math.PI/2;
-      const radius=80+Math.random()*120;
-      g.style.setProperty("--x",radius*Math.cos(angle));
-      g.style.setProperty("--y",-radius*Math.sin(angle));
+giftBtn.onclick = function() {
+  giftMsg.style.opacity = 1;
+  const gifts = ["🍫","🌹","🧸","🤗","😘"];
+  const startTime = Date.now();
+  const fireDuration = 3000;
+  const fireInterval = setInterval(() => {
+    if (Date.now() - startTime > fireDuration) { clearInterval(fireInterval); return; }
+    for (let i = 0; i < 8; i++) {
+      const g = document.createElement("div");
+      g.className = "floatingGift";
+      g.textContent = gifts[Math.floor(Math.random() * gifts.length)];
+      const startX = Math.random() * window.innerWidth;
+      const startY = window.innerHeight - 50;
+      g.style.left = startX + "px";
+      g.style.top = startY + "px";
+      const angle = Math.random() * Math.PI - Math.PI/2;
+      const radius = 80 + Math.random() * 120;
+      g.style.setProperty("--x", radius * Math.cos(angle));
+      g.style.setProperty("--y", -radius * Math.sin(angle));
       document.body.appendChild(g);
-      setTimeout(()=>g.remove(),2000);
+      setTimeout(() => g.remove(), 2000);
     }
-  },200);
-  giftBtn.style.transform="rotate(10deg) scale(1.2)";
-  setTimeout(()=>giftBtn.style.transform="rotate(0deg) scale(1)",500);
+  }, 200);
+  giftBtn.style.transform = "rotate(10deg) scale(1.2)";
+  setTimeout(() => giftBtn.style.transform = "rotate(0deg) scale(1)", 500);
 }
 
 /* FLOATING HEARTS PAGE1 */
-const floatIcons=["💖","💘","💜","🌹","🌸","✨"];
-setInterval(()=>{ if(page1.classList.contains("active")){ const r=document.createElement("div"); r.className="floating"; r.textContent=floatIcons[Math.floor(Math.random()*floatIcons.length)]; r.style.left=Math.random()*100+"vw"; r.style.fontSize=(20+Math.random()*30)+"px"; r.style.animationDuration=(6+Math.random()*6)+"s"; r.style.color="var(--heart-light)"; page1.appendChild(r); setTimeout(()=>r.remove(),12000); } },400);
+const floatIcons = ["💖","💘","💜","🌹","🌸","✨"];
+setInterval(() => { 
+  if (page1.classList.contains("active")) { 
+    const r = document.createElement("div"); 
+    r.className = "floating"; 
+    r.textContent = floatIcons[Math.floor(Math.random()*floatIcons.length)]; 
+    r.style.left = Math.random()*100 + "vw"; 
+    r.style.fontSize = (20+Math.random()*30) + "px"; 
+    r.style.animationDuration = (6+Math.random()*6) + "s"; 
+    r.style.color = "var(--heart-light)"; 
+    page1.appendChild(r); 
+    setTimeout(()=>r.remove(),12000); 
+  } 
+}, 400);
 
 /* FLOATING PETALS PAGE2 */
-function launchPage2Petals(){ const petals=["🌹"]; setInterval(()=>{ if(page2.classList.contains("active")){ const p=document.createElement("div"); p.className="floating"; p.textContent=petals[Math.floor(Math.random()*petals.length)]; p.style.left=Math.random()*100+"vw"; p.style.fontSize=(24+Math.random()*20)+"px"; p.style.animationDuration=(6+Math.random()*6)+"s"; page2.appendChild(p); setTimeout(()=>p.remove(),12000); } },500); }
+let petalInterval;
+function launchPage2Petals(){ 
+  if(petalInterval) clearInterval(petalInterval);
+  const petals=["🌹"]; 
+  petalInterval = setInterval(() => { 
+    if(page2.classList.contains("active")) { 
+      const p=document.createElement("div"); 
+      p.className="floating"; 
+      p.textContent=petals[Math.floor(Math.random()*petals.length)]; 
+      p.style.left = Math.random()*100 + "vw"; 
+      p.style.fontSize = (24+Math.random()*20) + "px"; 
+      p.style.animationDuration = (6+Math.random()*6) + "s"; 
+      page2.appendChild(p); 
+      setTimeout(()=>p.remove(),12000); 
+    } 
+  }, 500); 
+}
 
 /* CELEBRATION FIREWORKS PAGE2 */
-function launchCelebration(){ const fireworks=["✨","💖","💘"]; setInterval(()=>{ if(page2.classList.contains("active")){ const f=document.createElement("div"); f.className="firework"; f.textContent=fireworks[Math.floor(Math.random()*fireworks.length)]; f.style.left=Math.random()*window.innerWidth+"px"; f.style.top=Math.random()*window.innerHeight+"px"; document.body.appendChild(f); setTimeout(()=>f.remove(),1500); } },800); }
+let fireworkInterval;
+function launchCelebration(){ 
+  if(fireworkInterval) clearInterval(fireworkInterval);
+  const fireworks=["✨","💖","💘"]; 
+  fireworkInterval = setInterval(()=>{ 
+    if(page2.classList.contains("active")) { 
+      const f=document.createElement("div"); 
+      f.className="firework"; 
+      f.textContent=fireworks[Math.floor(Math.random()*fireworks.length)]; 
+      f.style.left = Math.random()*window.innerWidth + "px"; 
+      f.style.top = Math.random()*window.innerHeight + "px"; 
+      document.body.appendChild(f); 
+      setTimeout(()=>f.remove(),1500); 
+    } 
+  }, 800); 
+}
 </script>
 </body>
 </html>
