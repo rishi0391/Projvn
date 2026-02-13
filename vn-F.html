@@ -276,18 +276,27 @@ function goFinal(){
   typeLoveMsg();
 }
 
-function revealForever(){
-  loveMsg.style.opacity=1;
-  secondMsg.style.opacity=1;
-  foreverMsg.style.opacity=1;
-  foreverMsg.style.transition="opacity 2s";
+let foreverRevealed = false; // flag to prevent hiding
 
-  setTimeout(()=>{
-    giftBtn.style.opacity=1;
-    giftBtn.style.top="200px";
-    giftBtn.style.transition="all 1s cubic-bezier(0.68,-0.55,0.27,1.55)";
-  },1000);
+function revealForever() {
+  if (foreverRevealed) return; // do nothing if already revealed
+
+  foreverRevealed = true;
+
+  // Make messages fully visible
+  loveMsg.style.opacity = 1;
+  secondMsg.style.opacity = 1;
+  foreverMsg.style.opacity = 1;
+  foreverMsg.style.transition = "opacity 2s";
+
+  // Show gift button
+  setTimeout(() => {
+    giftBtn.style.opacity = 1;
+    giftBtn.style.top = "200px";
+    giftBtn.style.transition = "all 1s cubic-bezier(0.68,-0.55,0.27,1.55)";
+  }, 1000);
 }
+
 
 // Surprise gift button
 giftBtn.onclick=function(){
