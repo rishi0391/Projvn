@@ -21,15 +21,6 @@ body {
   font-family:'Poppins',sans-serif;
   color:var(--text);
   overflow:hidden;
-  background: linear-gradient(135deg, #f8a5c2, #f6e58d, #fab1a0, #ffb8b8);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-}
-
-@keyframes gradientBG {
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
 }
 
 /* PAGES */
@@ -40,10 +31,17 @@ body {
   justify-content:center;
   align-items:center;
   flex-direction:column;
-  background: transparent;
-  transition: background 2s ease;
+  /* Soft gradient background for all pages */
+  background: linear-gradient(135deg, #f8a5c2, #f6e58d, #fab1a0, #ffb8b8);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
 }
 .page.active{display:flex;}
+@keyframes gradientBG {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
 
 /* PAGE 1 */
 .card{background:var(--card);padding:32px 42px;border-radius:28px;width:95%;max-width:620px;text-align:center;box-shadow:0 30px 60px rgba(255,105,135,.25);display:flex;flex-direction:column;gap:16px;}
@@ -54,7 +52,7 @@ h1{margin:0;font-size:2.1rem;}
 button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor:pointer;font-weight:600;}
 #yesBtn{background:var(--accent);color:white;position:absolute;left:50%;bottom:0;transform:translateX(-50%);box-shadow:0 10px 25px rgba(255,105,135,.45);}
 #noBtn{background:#ffe0ea;color:#9d2845;position:absolute;top:0;left:0;}
-.tease{min-height:26px;font-style:italic;color:#9d1745;}
+.tease{min-height:26px;font-style:italic;color:#9d2845;}
 
 /* PAGE 2 */
 .memory{flex-direction:column;gap:16px;padding:20px;text-align:center;}
@@ -195,7 +193,118 @@ Making up for this Valentine’s week, days which I missed to celebrate with you
 <div class="fullscreen" id="fullscreen"><img id="fullscreenImg"></div>
 
 <script>
-// All previous JS logic remains unchanged
+// --- Typing effect PAGE1 ---
+const typedText="Rishabh 💖 Hemanginee";
+let i=0;
+(function type(){ if(i<typedText.length){ typed.textContent+=typedText[i++]; setTimeout(type,120); }})();
+
+// --- NO button ---
+const lines=["Are you sure? 💘","Button has commitment issues 😂","My heart says YES 💖","I believe in you ✨","Oops 😏 try again","Wrong choice 😌"];
+let l=0;
+function moveNo(){ const box=document.querySelector(".buttons"); noBtn.style.left=Math.random()*(box.clientWidth-90)+"px"; noBtn.style.top=Math.random()*(box.clientHeight-40)+"px"; tease.textContent=lines[l++%lines.length]; }
+noBtn.onmouseenter=moveNo; noBtn.ontouchstart=moveNo;
+
+// --- Audio ---
+const music1 = document.getElementById("music1");
+const music3 = document.getElementById("music3");
+const music2 = document.getElementById("music2");
+page1.addEventListener("click", function playMusic1Once() { music1.play().catch(()=>{}); page1.removeEventListener("click", playMusic1Once); });
+
+// --- PAGE2 YES button ---
+yesBtn.onclick=()=>{
+  page1.classList.remove("active");
+  page2.classList.add("active");
+  music1.pause(); music1.currentTime=0;
+  music3.play();
+  launchCelebration();
+  launchPage2Petals();
+  startSlideshow();
+};
+
+// --- SLIDESHOW ---
+function startSlideshow(){
+  const slides = document.querySelectorAll("#slideshow img");
+  slides.forEach(img=>img.style.opacity=0);
+  slides[0].style.opacity=1;
+  let idx=0;
+  const interval=setInterval(()=>{
+    slides[idx].style.opacity=0;
+    idx++;
+    if(idx>=slides.length){
+      clearInterval(interval);
+      document.getElementById("slideshow").style.transition="opacity 1.5s";
+      document.getElementById("slideshow").style.opacity=0;
+      document.getElementById("page2Title").style.transition="opacity 1.5s";
+      document.getElementById("page2Title").style.opacity=0;
+      setTimeout(()=>{
+        document.getElementById("slideshow").style.display="none";
+        document.getElementById("reel").style.display="flex";
+        document.getElementById("memoryLaneTitle").style.opacity=1;
+      },1600);
+      return;
+    }
+    slides[idx].style.opacity=1;
+  },3500);
+}
+
+// --- Fullscreen images ---
+const fullscreen=document.getElementById("fullscreen");
+const fullscreenImg=document.getElementById("fullscreenImg");
+document.querySelectorAll("#reel img").forEach(img=>{
+  img.addEventListener("click", e=>{
+    e.stopPropagation();
+    fullscreenImg.src=img.src;
+    fullscreen.style.display="flex";
+    setTimeout(()=>fullscreen.classList.add("show"),10);
+  });
+});
+fullscreen.addEventListener("click", e=>{
+  if(e.target===fullscreen||e.target===fullscreenImg){
+    fullscreen.classList.remove("show");
+    setTimeout(()=>fullscreen.style.display="none",400);
+  }
+});
+
+// --- PAGE3 text & music2 ---
+const loveText="I Love You my Bacha .... Not just today, but every single day that follows 💘";
+const loveMsg=document.getElementById("loveMsg");
+const finalImg=document.getElementById("finalImg");
+const secondMsg=document.getElementById("secondMsg");
+const foreverMsg=document.getElementById("foreverMsg");
+let li=0;
+function typeLoveMsg(){ if(li<loveText.length){ loveMsg.textContent+=loveText[li++]; setTimeout(typeLoveMsg,80); } else{ finalImg.style.opacity=1; setTimeout(()=>{ secondMsg.style.transition="opacity 2s"; secondMsg.style.opacity=1; },2000);}}
+function goFinal(){ page2.classList.remove("active"); page3.classList.add("active"); music3.pause(); music2.play(); typeLoveMsg();}
+function revealForever(){ foreverMsg.classList.add("show"); setTimeout(()=>{ giftBtn.style.opacity=1; giftBtn.style.top="200px"; giftBtn.style.transition="all 1s cubic-bezier(0.68,-0.55,0.27,1.55)"; },2000);}
+
+// --- Surprise gift button ---
+giftBtn.onclick=function(){
+  const giftMsg=document.getElementById("giftMsg"); giftMsg.style.opacity=1;
+  const gifts=["🍫","🌹","🧸","🤗","😘"];
+  const startTime=Date.now(); const fireDuration=3000;
+  const fireInterval=setInterval(()=>{
+    if(Date.now()-startTime>fireDuration){ clearInterval(fireInterval); return; }
+    for(let i=0;i<8;i++){
+      const g=document.createElement("div"); g.className="floatingGift"; g.textContent=gifts[Math.floor(Math.random()*gifts.length)];
+      const startX=Math.random()*window.innerWidth; const startY=window.innerHeight-50;
+      g.style.left=startX+"px"; g.style.top=startY+"px";
+      const angle=Math.random()*Math.PI-Math.PI/2; const radius=80+Math.random()*120;
+      g.style.setProperty("--x",radius*Math.cos(angle)); g.style.setProperty("--y",-radius*Math.sin(angle));
+      document.body.appendChild(g); setTimeout(()=>g.remove(),2000);
+    }
+  },200);
+  giftBtn.style.transform="rotate(10deg) scale(1.2)"; setTimeout(()=>giftBtn.style.transform="rotate(0deg) scale(1)",500);
+}
+
+// --- Floating hearts PAGE1 ---
+const floatIcons=["💖","💘","💜","🌹","🌸","✨"];
+setInterval(()=>{ if(page1.classList.contains("active")){ const r=document.createElement("div"); r.className="floating"; r.textContent=floatIcons[Math.floor(Math.random()*floatIcons.length)]; r.style.left=Math.random()*100+"vw"; r.style.fontSize=(20+Math.random()*30)+"px"; r.style.animationDuration=(6+Math.random()*6)+"s"; r.style.color="var(--heart-light)"; page1.appendChild(r); setTimeout(()=>r.remove(),12000); }},400);
+
+// --- Floating petals PAGE2 ---
+function launchPage2Petals(){ const petals=["🌹"]; setInterval(()=>{ if(page2.classList.contains("active")){ const p=document.createElement("div"); p.className="floating"; p.textContent=petals[Math.floor(Math.random()*petals.length)]; p.style.left=Math.random()*100+"vw"; p.style.fontSize=(24+Math.random()*20)+"px"; p.style.animationDuration=(6+Math.random()*6)+"s"; page2.appendChild(p); setTimeout(()=>p.remove(),12000); }},400);}
+
+// --- Floating flowers PAGE3 ---
+function launchPage3Flowers(){ const flowers=["💜","🤍","🌹","🌼"]; setInterval(()=>{ if(page3.classList.contains("active")){ const f=document.createElement("div"); f.className="floating"; f.textContent=flowers[Math.floor(Math.random()*flowers.length)]; f.style.left=Math.random()*100+"vw"; f.style.fontSize=(20+Math.random()*30)+"px"; f.style.animationDuration=(6+Math.random()*6)+"s"; page3.appendChild(f); setTimeout(()=>f.remove(),12000); }},400);}
 </script>
+
 </body>
 </html>
