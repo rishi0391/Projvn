@@ -14,63 +14,51 @@
   --heart-light:#ffbad0;
 }
 *{box-sizing:border-box;}
-html, body{margin:0;padding:0;height:100%;width:100%;overflow:hidden;font-family:'Poppins',sans-serif;color:var(--text);}
+html, body { margin:0; padding:0; width:100%; height:100%; font-family:'Poppins',sans-serif; color:var(--text); overflow:hidden; }
+.page { position:absolute; inset:0; display:none; justify-content:center; align-items:center; transition: background 0.5s ease; }
+.page.active { display:flex; flex-direction:column; }
 
-/* ================= Pages ================= */
-.page {
-  position: absolute;
-  top:0; left:0;
-  width: 100%;
-  height: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  transition: background 0.5s ease; /* Smooth background change */
-}
-.page.active { display:flex; }
+/* Card styling */
+.card { background:var(--card); padding:32px 42px; border-radius:28px; width:95%; max-width:620px; text-align:center; box-shadow:0 30px 60px rgba(255,105,135,.25); display:flex; flex-direction:column; gap:16px; }
+.names { font-size:1.6rem; font-weight:600; color:#9d1745; }
+h1 { margin:0; font-size:2.1rem; }
+.subtitle { opacity:.85; }
+.buttons { position:relative; height:120px; }
+button { border:none; border-radius:30px; padding:14px 34px; font-size:1.05rem; cursor:pointer; font-weight:600; }
+#yesBtn { background:var(--accent); color:white; position:absolute; left:50%; bottom:0; transform:translateX(-50%); box-shadow:0 10px 25px rgba(255,105,135,.45); }
+#noBtn { background:#ffe0ea; color:#9d1745; position:absolute; top:0; left:0; }
+.tease { min-height:26px; font-style:italic; color:#9d1745; }
 
-/* ================= PAGE 1 ================= */
-.card{background:var(--card);padding:32px 42px;border-radius:28px;width:95%;max-width:620px;text-align:center;box-shadow:0 30px 60px rgba(255,105,135,.25);display:flex;flex-direction:column;gap:16px;}
-.names{font-size:1.6rem;font-weight:600;color:#9d1745;}
-h1{margin:0;font-size:2.1rem;}
-.subtitle{opacity:.85;}
-.buttons{position:relative;height:120px;}
-button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor:pointer;font-weight:600;}
-#yesBtn{background:var(--accent);color:white;position:absolute;left:50%;bottom:0;transform:translateX(-50%);box-shadow:0 10px 25px rgba(255,105,135,.45);}
-#noBtn{background:#ffe0ea;color:#9d1745;position:absolute;top:0;left:0;}
-.tease{min-height:26px;font-style:italic;color:#9d1745;}
+/* PAGE 2 */
+.memory { flex-direction:column; gap:16px; padding:20px; text-align:center; }
+.yesConfirm { font-size:2rem; font-weight:800; color:var(--accent-dark); animation:pulse 2.2s ease-in-out infinite; margin-bottom:20px; }
+@keyframes pulse {0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+#slideshow { position:relative; width:90%; max-width:1200px; height:600px; margin:auto; overflow:hidden; border-radius:16px; box-shadow:0 16px 40px rgba(0,0,0,0.25); background:#000;}
+#slideshow img { width:100%; height:100%; object-fit:contain; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); opacity:0; transition: opacity 1.5s ease-in-out; }
+#slideshow img.active { opacity:1; }
+#memoryLaneTitle { font-family:'Sacramento',cursive; font-size:2rem; margin-top:20px; opacity:0; transition: opacity 1.5s; }
+.reel { width:100%; overflow-x:auto; display:none; gap:16px; margin-top:20px; padding:20px 0; white-space:nowrap; cursor:grab; }
+.reel img { width:200px; height:250px; object-fit:cover; border-radius:16px; cursor:zoom-in; display:inline-block; transform-origin: top center; animation: swing 3s ease-in-out infinite; }
+@keyframes swing { 0%{transform:rotate(-5deg);}50%{transform:rotate(5deg);}100%{transform:rotate(-5deg);}}
 
-/* ================= PAGE 2 ================= */
-.memory{flex-direction:column;gap:16px;padding:20px;text-align:center;}
-.yesConfirm{font-size:2rem;font-weight:800;color:var(--accent-dark);animation:pulse 2.2s ease-in-out infinite;margin-bottom:20px;}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-#slideshow{position:relative;width:90%;max-width:1200px;height:600px;margin:auto;overflow:hidden;border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,0.25);background:#000;}
-#slideshow img{width:100%;height:100%;object-fit:contain;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;transition: opacity 1.5s ease-in-out;}
-#slideshow img.active{opacity:1;}
-#memoryLaneTitle{font-family:'Sacramento',cursive;font-size:2rem;margin-top:20px;opacity:0;transition: opacity 1.5s;}
-.reel{width:100%;overflow-x:auto;display:none;gap:16px;margin-top:20px;padding:20px 0;white-space:nowrap;cursor:grab;}
-.reel img{width:200px;height:250px;object-fit:cover;border-radius:16px;cursor:zoom-in;display:inline-block;transform-origin: top center;animation: swing 3s ease-in-out infinite;}
-@keyframes swing{0%{transform:rotate(-5deg);}50%{transform:rotate(5deg);}100%{transform:rotate(-5deg);}}
+/* PAGE 3 */
+.final { flex-direction:column; gap:18px; text-align:center; }
+.handwritten { font-family:'Sacramento',cursive; color:#9d2845; text-align:center; }
+.forever { opacity:0; transition:1.8s; font-style:italic; }
+.forever.show { opacity:1; }
 
-/* ================= PAGE 3 ================= */
-.final{flex-direction:column;gap:18px;text-align:center;}
-.handwritten{font-family:'Sacramento',cursive;color:#9d2845;text-align:center;}
-.forever{opacity:0;transition:1.8s;font-style:italic;}
-.forever.show{opacity:1;}
-
-/* ================= Floating elements ================= */
-.floating{position:fixed;top:-40px;pointer-events:none;z-index:80;animation-name:floatDrift;animation-timing-function:linear;animation-fill-mode:forwards;}
-@keyframes floatDrift{0%{transform:translate(0,0) rotate(0deg);opacity:0.9;}25%{transform:translate(15px,25vh) rotate(20deg);}50%{transform:translate(-10px,50vh) rotate(-15deg);}75%{transform:translate(10px,75vh) rotate(10deg);}100%{transform:translate(0,100vh) rotate(360deg);opacity:0;}}
+/* Floating elements */
+.floating { position:fixed; top:-40px; pointer-events:none; z-index:80; animation-name:floatDrift; animation-timing-function:linear; animation-fill-mode:forwards; }
+@keyframes floatDrift {0%{transform:translate(0,0) rotate(0deg);opacity:0.9;}25%{transform:translate(15px,25vh) rotate(20deg);}50%{transform:translate(-10px,50vh) rotate(-15deg);}75%{transform:translate(10px,75vh) rotate(10deg);}100%{transform:translate(0,100vh) rotate(360deg);opacity:0;}}
 
 /* Fireworks */
-.firework{position:fixed;font-size:28px;pointer-events:none;animation:boom 1.5s ease-out forwards;z-index:120;color:var(--heart-light);}
-@keyframes boom{0%{transform:scale(0.2);opacity:0.8}70%{transform:scale(2.5);opacity:0.8}100%{transform:scale(3.5);opacity:0;}}
+.firework { position:fixed; font-size:28px; pointer-events:none; animation:boom 1.5s ease-out forwards; z-index:120; color:var(--heart-light); }
+@keyframes boom {0%{transform:scale(0.2);opacity:0.8}70%{transform:scale(2.5);opacity:0.8}100%{transform:scale(3.5);opacity:0;}}
 
 /* Fullscreen overlay */
-.fullscreen{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;z-index:999;cursor:pointer;}
-.fullscreen img{max-width:90%;max-height:90%;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.5);transform: scale(0.8);opacity:0;transition: transform 0.4s ease, opacity 0.4s ease;}
-.fullscreen.show img{transform: scale(1);opacity:1;}
+.fullscreen { position:fixed; inset:0; background:rgba(0,0,0,.9); display:none; justify-content:center; align-items:center; z-index:999; cursor:pointer; }
+.fullscreen img { max-width:90%; max-height:90%; border-radius:18px; box-shadow:0 16px 40px rgba(0,0,0,0.5); transform: scale(0.8); opacity:0; transition: transform 0.4s ease, opacity 0.4s ease; }
+.fullscreen.show img { transform: scale(1); opacity:1; }
 </style>
 </head>
 <body>
@@ -80,7 +68,7 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 <audio id="music3" src="music/music3.mp3" loop></audio>
 <audio id="music2" src="music/music2.mp3" loop></audio>
 
-<!-- ================= PAGE 1 ================= -->
+<!-- PAGE 1 -->
 <div class="page active" id="page1">
   <div class="card">
     <div class="names" id="typed"></div>
@@ -94,7 +82,7 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
   </div>
 </div>
 
-<!-- ================= PAGE 2 ================= -->
+<!-- PAGE 2 -->
 <div class="page memory" id="page2">
   <div class="yesConfirm">💖 Yay! You Said Yes!</div>
   <h1 id="page2Title">Our Beautiful Memories 💞</h1>
@@ -104,25 +92,17 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
     <img src="img/img3.jpg">
     <img src="img/img4.jpg">
     <img src="img/img5.jpg">
-    <img src="img/img6.jpg">
-    <img src="img/img7.jpg">
-    <img src="img/img8.jpg">
-    <img src="img/img9.jpg">
   </div>
   <div id="memoryLaneTitle">Our Memory Lane 💖</div>
   <div class="reel" id="reel">
     <img src="img/img11.jpg">
     <img src="img/img12.jpg">
     <img src="img/img13.jpg">
-    <img src="img/img14.jpg">
-    <img src="img/img15.jpg">
-    <img src="img/img16.jpg">
-    <img src="img/img17.jpg">
   </div>
   <button onclick="goFinal()">One last thing… 💌</button>
 </div>
 
-<!-- ================= PAGE 3 ================= -->
+<!-- PAGE 3 -->
 <div class="page final" id="page3">
   <p id="loveMsg" class="handwritten" style="font-size:2rem;margin-bottom:15px;"></p>
   <img src="img/img10.jpg" id="finalImg" style="opacity:0;transition:opacity 2s;width:400px;max-width:85%;border-radius:24px;cursor:pointer;box-shadow:0 18px 40px rgba(255,105,135,.35);" onclick="revealForever()">
@@ -134,37 +114,59 @@ button{border:none;border-radius:30px;padding:14px 34px;font-size:1.05rem;cursor
 <div class="fullscreen" id="fullscreen"><img id="fullscreenImg"></div>
 
 <script>
-// ================= JS ===================
+// ======== ELEMENTS ========
+const page1El = document.getElementById("page1");
+const page2El = document.getElementById("page2");
+const page3El = document.getElementById("page3");
+const yesBtnEl = document.getElementById("yesBtn");
+const noBtnEl = document.getElementById("noBtn");
+const typedEl = document.getElementById("typed");
+const teaseEl = document.getElementById("tease");
+const loveMsg = document.getElementById("loveMsg");
+const finalImg = document.getElementById("finalImg");
+const secondMsg = document.getElementById("secondMsg");
+const foreverMsg = document.getElementById("foreverMsg");
+const reel = document.getElementById("reel");
 
-// PAGE 1 typing
+// ======== PAGE TYPING ========
 const typedText="Rishabh 💖 Hemanginee";
 let i=0;
-(function type(){ if(i<typedText.length){ typed.textContent+=typedText[i++]; setTimeout(type,120); }})();
+(function type(){ if(i<typedText.length){ typedEl.textContent+=typedText[i++]; setTimeout(type,120); }})();
 
-// PAGE1 NO button
+// ======== NO BUTTON ========
 const lines=["Are you sure? 💘","Button has commitment issues 😂","My heart says YES 💖","I believe in you ✨","Oops 😏 try again","Wrong choice 😌"];
 let l=0;
-function moveNo(){ const box=document.querySelector(".buttons"); noBtn.style.left=Math.random()*(box.clientWidth-90)+"px"; noBtn.style.top=Math.random()*(box.clientHeight-40)+"px"; tease.textContent=lines[l++%lines.length]; }
-noBtn.onmouseenter=moveNo; noBtn.ontouchstart=moveNo;
+function moveNo(){ 
+  const box=document.querySelector(".buttons"); 
+  noBtnEl.style.left=Math.random()*(box.clientWidth-90)+"px"; 
+  noBtnEl.style.top=Math.random()*(box.clientHeight-40)+"px"; 
+  teaseEl.textContent=lines[l++%lines.length]; 
+}
+noBtnEl.onmouseenter=moveNo;
+noBtnEl.ontouchstart=moveNo;
 
-// AUDIO
+// ======== MUSIC ========
 const music1 = document.getElementById("music1");
 const music3 = document.getElementById("music3");
 const music2 = document.getElementById("music2");
-page1.addEventListener("click", function playMusic1Once() { music1.play().catch(()=>{}); page1.removeEventListener("click", playMusic1Once); });
 
-// PAGE2 YES button
-yesBtn.onclick=()=>{
-  page1.classList.remove("active");
-  page2.classList.add("active");
+page1El.addEventListener("click", function playMusic1Once() {
+  music1.play().catch(()=>{});
+  page1El.removeEventListener("click", playMusic1Once);
+});
+
+// ======== YES BUTTON ========
+yesBtnEl.onclick = ()=>{
+  page1El.classList.remove("active");
+  page2El.classList.add("active");
   music1.pause(); music1.currentTime=0;
   music3.play();
-  launchCelebration();
   launchPage2Petals();
   startSlideshow();
+  launchCelebration();
 };
 
-// SLIDESHOW
+// ======== SLIDESHOW ========
 function startSlideshow(){
   const slides = document.querySelectorAll("#slideshow img");
   slides.forEach(img=>img.style.opacity=0);
@@ -173,103 +175,67 @@ function startSlideshow(){
   const interval=setInterval(()=>{
     slides[idx].style.opacity=0;
     idx++;
-    if(idx>=slides.length){
-      clearInterval(interval);
-      document.getElementById("slideshow").style.transition="opacity 1.5s";
-      document.getElementById("slideshow").style.opacity=0;
-      document.getElementById("page2Title").style.transition="opacity 1.5s";
-      document.getElementById("page2Title").style.opacity=0;
-      setTimeout(()=>{
-        document.getElementById("slideshow").style.display="none";
-        document.getElementById("reel").style.display="flex";
-        document.getElementById("memoryLaneTitle").style.opacity=1;
-      },1600);
-      return;
-    }
+    if(idx>=slides.length){ clearInterval(interval); return; }
     slides[idx].style.opacity=1;
   },3500);
 }
 
-// Fullscreen images
-const fullscreen=document.getElementById("fullscreen");
-const fullscreenImg=document.getElementById("fullscreenImg");
-document.querySelectorAll("#reel img").forEach(img=>{
-  img.addEventListener("click", e=>{
-    e.stopPropagation();
-    fullscreenImg.src=img.src;
-    fullscreen.style.display="flex";
-    setTimeout(()=>fullscreen.classList.add("show"),10);
-  });
-});
-fullscreen.addEventListener("click", e=>{
-  if(e.target===fullscreen||e.target===fullscreenImg){
-    fullscreen.classList.remove("show");
-    setTimeout(()=>fullscreen.style.display="none",400);
-  }
-});
-
-// PAGE3 text & music2
-const loveText="I Love You my Bacha .... Not just today, but every single day that follows 💘";
-const loveMsg=document.getElementById("loveMsg");
-const finalImg=document.getElementById("finalImg");
-const secondMsg=document.getElementById("secondMsg");
-const foreverMsg=document.getElementById("foreverMsg");
-let li=0;
-function typeLoveMsg(){ if(li<loveText.length){ loveMsg.textContent+=loveText[li++]; setTimeout(typeLoveMsg,80); } else{ finalImg.style.opacity=1; setTimeout(()=>{ secondMsg.style.transition="opacity 2s"; secondMsg.style.opacity=1; },2000);}}
-function goFinal(){ page2.classList.remove("active"); page3.classList.add("active"); music3.pause(); music2.play(); typeLoveMsg();}
-function revealForever(){ foreverMsg.classList.add("show"); }
-
-// Floating hearts PAGE1
-const floatIcons=["💖","💘","💜","🌹","🌸","✨"];
-setInterval(()=>{
-  if(page1.classList.contains("active")){
-    const r=document.createElement("div"); r.className="floating"; r.textContent=floatIcons[Math.floor(Math.random()*floatIcons.length)];
-    r.style.left=Math.random()*100+"vw"; r.style.fontSize=(20+Math.random()*30)+"px"; r.style.animationDuration=(6+Math.random()*6)+"s"; r.style.color="var(--heart-light)";
-    page1.appendChild(r); setTimeout(()=>r.remove(),12000);
-  }
-},400);
-
-// Floating petals PAGE2
-function launchPage2Petals(){
-  const petals=["🌹"];
+// ======== FLOATING ELEMENTS ========
+function floatingElements(pageEl, icons, minSize=20, maxSize=30, duration=[6,12]){
   setInterval(()=>{
-    if(page2.classList.contains("active")){
-      const p=document.createElement("div"); p.className="floating"; p.textContent=petals[Math.floor(Math.random()*petals.length)];
-      p.style.left=Math.random()*100+"vw"; p.style.fontSize=(24+Math.random()*20)+"px"; p.style.animationDuration=(6+Math.random()*6)+"s";
-      page2.appendChild(p); setTimeout(()=>p.remove(),12000);
+    if(pageEl.classList.contains("active")){
+      const f=document.createElement("div"); f.className="floating"; 
+      f.textContent=icons[Math.floor(Math.random()*icons.length)];
+      f.style.left=Math.random()*100+"vw";
+      f.style.fontSize=(minSize+Math.random()*(maxSize-minSize))+"px";
+      f.style.animationDuration=(duration[0]+Math.random()*(duration[1]-duration[0]))+"s";
+      pageEl.appendChild(f); setTimeout(()=>f.remove(),12000);
     }
   },400);
 }
-
-// Floating flowers PAGE3
-function launchPage3Flowers(){
-  const flowers=["💜","🤍","🌹","🌼"];
-  setInterval(()=>{
-    if(page3.classList.contains("active")){
-      const f=document.createElement("div"); f.className="floating"; f.textContent=flowers[Math.floor(Math.random()*flowers.length)];
-      f.style.left=Math.random()*100+"vw"; f.style.fontSize=(22+Math.random()*28)+"px"; f.style.animationDuration=(6+Math.random()*6)+"s";
-      page3.appendChild(f); setTimeout(()=>f.remove(),12000);
-    }
-  },400);
-}
+floatingElements(page1El, ["💖","💘","💜","🌹","🌸","✨"]);
+function launchPage2Petals(){ floatingElements(page2El, ["🌹"],24,44,[6,12]); }
+function launchPage3Flowers(){ floatingElements(page3El, ["💜","🤍","🌹","🌼"],22,48,[6,12]); }
 launchPage3Flowers();
 
-// ================= Smooth romantic background color change =================
-const pagesAll=document.querySelectorAll(".page");
-const backgroundColors=["#fff6fa","#ffe0ea","#fff0f5","#ffe4ec","#ffd6e8"];
-let colorIndex=0;
-setInterval(()=>{
-  pagesAll.forEach(page=>page.style.background=backgroundColors[colorIndex]);
-  colorIndex=(colorIndex+1)%backgroundColors.length;
-},500);
-
-// Celebration fireworks
+// ======== FIREWORKS ========
 function launchCelebration(){
   const rainIcons=["💖","💘","💜","🌹","🌸","✨"];
-  const fw=setInterval(()=>{ const f=document.createElement("div"); f.className="firework"; f.textContent="💖"; f.style.left=Math.random()*100+"vw"; f.style.top=Math.random()*60+"vh"; document.body.appendChild(f); setTimeout(()=>f.remove(),1500); },220);
-  const rain=setInterval(()=>{ const r=document.createElement("div"); r.className="floating"; r.textContent=rainIcons[Math.floor(Math.random()*rainIcons.length)]; r.style.left=Math.random()*100+"vw"; r.style.fontSize=(18+Math.random()*22)+"px"; r.style.animationDuration=(4+Math.random()*3)+"s"; r.style.color="var(--heart-light)"; document.body.appendChild(r); setTimeout(()=>r.remove(),8000); },120);
-  setTimeout(()=>{ clearInterval(fw); clearInterval(rain); },5000);
+  for(let i=0;i<12;i++){
+    const f=document.createElement("div"); f.className="firework"; 
+    f.textContent=rainIcons[Math.floor(Math.random()*rainIcons.length)];
+    f.style.left=Math.random()*100+"vw"; f.style.top=Math.random()*100+"vh"; 
+    page2El.appendChild(f);
+    setTimeout(()=>f.remove(),1500);
+  }
 }
+
+// ======== PAGE 3 LOVE ========
+const loveText="I Love You my Bacha .... Not just today, but every single day that follows 💘";
+let li=0;
+function typeLoveMsg(){
+  if(li<loveText.length){ loveMsg.textContent+=loveText[li++]; setTimeout(typeLoveMsg,80);}
+  else{ finalImg.style.opacity=1; setTimeout(()=>{ secondMsg.style.opacity=1; },2000); }
+}
+
+function goFinal(){
+  page2El.classList.remove("active");
+  page3El.classList.add("active");
+  music3.pause(); music2.play();
+  typeLoveMsg();
+}
+
+function revealForever(){ foreverMsg.classList.add("show"); }
+
+// ======== SMOOTH BACKGROUND COLOR CHANGE ========
+const pagesAll = [page1El, page2El, page3El];
+const bgColors = ["#fff6fa","#ffe0ea","#fff0f5","#ffe4ec","#ffd6e8"];
+let colorIndex=0;
+setInterval(()=>{
+  pagesAll.forEach(p=>{ p.style.transition="background 0.5s ease"; p.style.background=bgColors[colorIndex]; });
+  colorIndex = (colorIndex + 1) % bgColors.length;
+},2000);
+
 </script>
 </body>
 </html>
